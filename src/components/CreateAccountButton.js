@@ -14,7 +14,7 @@ const CreateAccountButton = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   textStyle: {
-    color: "grey",
+    color: "#707070",
     fontSize: 25,
     marginTop: 5,
   },

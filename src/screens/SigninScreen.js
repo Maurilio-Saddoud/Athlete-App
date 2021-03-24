@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   metricStyle: {
     fontSize: 35,
-    color: "grey",
+    color: "#707070",
     bottom: 20,
     marginLeft: 60,
     fontWeight: "bold",
