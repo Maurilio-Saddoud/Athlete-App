@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     backgroundColor: "#8ecfff",
     marginBottom: 30,
+    borderRadius: 50
   },
   textStyle: {
     alignSelf: "center",
