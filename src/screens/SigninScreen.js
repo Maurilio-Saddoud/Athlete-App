@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Button, TextInput } from "react-native";
 import CreateAccountButton from "../components/CreateAccountButton";
 import LoginBar from "../components/LoginBar";
 import LoginButton from "../components/LoginButton";
+import Spacer from "../components/Spacer";
 
 const SigninScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
@@ -25,7 +26,9 @@ const SigninScreen = ({ navigation }) => {
         onTermChange={(newTerm2) => setTerm2(newTerm2)}
         secure={true}
       />
+      <Spacer space={30} />
       <LoginButton />
+      <Spacer space={20} />
       <CreateAccountButton />
     </View>
   );
@@ -40,8 +43,8 @@ SigninScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
   viewStyle: {
     alignItems: "center",
-    backgroundColor: 'black',
-    flex: 1
+    backgroundColor: "black",
+    flex: 1,
   },
   kumoStyle: {
     fontSize: 70,
