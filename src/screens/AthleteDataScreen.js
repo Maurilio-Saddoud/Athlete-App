@@ -12,6 +12,7 @@ const AthleteDataScreen = () => {
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 30,
+    margin: 40,
   },
 });
 
