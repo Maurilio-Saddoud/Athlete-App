@@ -11,6 +11,8 @@ const LoginBar = ({ text, term, onTermChange, secure }) => {
         value = {term}
         onChangeText = {newTerm => onTermChange(newTerm)}
         secureTextEntry = {secure}
+        placeholderTextColor = "#8ecfff"
+        color = "#8ecfff"
         
     />
     </View>
@@ -19,16 +21,19 @@ const LoginBar = ({ text, term, onTermChange, secure }) => {
 
 const styles = StyleSheet.create({
     signinStyle: {
-        backgroundColor: '#F0EEEE',
+        backgroundColor: 'black',
         height: 50,
         width: 300,
         borderRadius: 5,
         marginTop: 10,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderBottomWidth: 4,
+        borderBottomColor: "#8ecfff"
       },
     inputStyle: {
         flex: 1,
-        marginLeft: 5
+        marginLeft: 5,
+        color: "#8ecfff"
     }
 
 });

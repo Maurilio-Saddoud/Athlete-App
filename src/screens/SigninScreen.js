@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import CreateAccountButton from "../components/CreateAccountButton";
 import LoginBar from "../components/LoginBar";
+import LoginButton from "../components/LoginButton";
 
 const SigninScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
@@ -23,14 +25,8 @@ const SigninScreen = ({ navigation }) => {
         onTermChange={(newTerm2) => setTerm2(newTerm2)}
         secure={true}
       />
-      <Button
-        title="Login"
-        onPress={() => navigation.navigate("athleteFlow")}
-      />
-      <Button
-        title="create Account"
-        onPress={() => navigation.navigate("CoachOrAthlete")}
-      />
+      <LoginButton />
+      <CreateAccountButton />
     </View>
   );
 };
@@ -44,13 +40,14 @@ SigninScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
   viewStyle: {
     alignItems: "center",
-    marginTop: 150,
+    backgroundColor: 'black',
+    flex: 1
   },
   kumoStyle: {
     fontSize: 70,
     fontWeight: "bold",
     color: "#8ecfff",
-    fontFamily: "Open Sans",
+    marginTop: 150,
   },
   metricStyle: {
     fontSize: 35,
