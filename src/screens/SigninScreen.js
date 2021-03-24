@@ -35,7 +35,7 @@ const SigninScreen = ({ navigation }) => {
         />
         <Spacer space={30} />
         <LoginButton />
-        <Spacer space={20} />
+        <Spacer space={10} />
         <CreateAccountButton />
       </View>
     </TouchableWithoutFeedback>

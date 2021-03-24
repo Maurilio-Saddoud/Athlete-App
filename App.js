@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import * as Font from "expo-font";
+import { AppLoading } from "expo-app-loading";
 
 import SigninScreen from "./src/screens/SigninScreen";
 import CoachOrAthleteScreen from "./src/screens/CoachOrAthleteScreen";
@@ -18,6 +20,12 @@ import CoachQScreen from "./src/screens/CoachQScreen";
 import TeamDataScreen from "./src/screens/TeamDataScreen";
 import CoachSettingsScreen from "./src/screens/CoachSettingsScreen";
 
+const fetchFont = () => {
+  return Font.loadAsync({
+    abnes: require("./assets/fonts/abnes.ttf"),
+  });
+};
+
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     Signin: SigninScreen,
@@ -27,18 +35,35 @@ const switchNavigator = createSwitchNavigator({
     CoachJoinCode: CoachJoinCodeScreen,
     CoachRegistration: CoachRegistrationScreen,
     CoachCreateTeam: CoachCreateTeamScreen,
-    AthleteRegistration: AthleteRegistrationScreen
+    AthleteRegistration: AthleteRegistrationScreen,
   }),
   athleteFlow: createBottomTabNavigator({
-      AthleteQ: AthleteQScreen,
-      AthleteData: AthleteDataScreen,
-      AthleteSettings: AthleteSettingsScreen
+    AthleteQ: AthleteQScreen,
+    AthleteData: AthleteDataScreen,
+    AthleteSettings: AthleteSettingsScreen,
   }),
   coachFlow: createBottomTabNavigator({
     CoachQ: CoachQScreen,
     TeamData: TeamDataScreen,
-    CoachSettings: CoachSettingsScreen
-  })
+    CoachSettings: CoachSettingsScreen,
+  }),
 });
 
-export default createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator);
+
+export default () => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  // if (!fontLoaded) {
+  //   return (
+  //     <AppLoading
+  //       startAsync={fetchFont}
+  //       onError={() => console.log("ERROR")}
+  //       onFinish={() => {
+  //         setFontLoaded(true);
+  //       }}
+  //     />
+  //   );
+  // }
+  return <App/>
+}
