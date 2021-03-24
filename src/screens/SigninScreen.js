@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#8ecfff",
     marginTop: 150,
+    fontFamily: "abnes"
   },
   metricStyle: {
     fontSize: 35,
