@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import * as Font from "expo-font";
+import * as Font from "expo-font";``
 
 import { AppLoading } from "expo-app-loading";
 
