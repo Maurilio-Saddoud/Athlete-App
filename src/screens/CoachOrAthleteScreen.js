@@ -1,31 +1,39 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import CoachAthleteButton from "../components/CoachAthleteButton";
+import { Spacer } from "../components/Spacer";
 
-const CoachOrAthleteScreen = ({navigation}) => {
+const CoachOrAthleteScreen = ({ navigation }) => {
   return (
-    <View style = {styles.viewStyle}>
-      <Text style = {styles.textStyle}>Coach or Athlete</Text>
-      <CoachAthleteButton 
-      text = {"Athlete"}
-      navigateto = {"AthleteJoinCode"}
-      />
-      <CoachAthleteButton 
-      text = {"Coach"} 
-      navigateto = {"CoachJoinCreate"}
-      />
+    <View style={styles.viewStyle}>
+      <View style={styles.spacerStyle} />
+      <Text style={styles.textStyle}>Sign up as</Text>
+      <Text style={styles.textStyle}>Coach or Athlete</Text>
+      <CoachAthleteButton text={"Athlete"} navigateto={"AthleteJoinCode"} />
+      <CoachAthleteButton text={"Coach"} navigateto={"CoachJoinCreate"} />
     </View>
   );
 };
 
+CoachOrAthleteScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   textStyle: {
+    color: "white",
     fontSize: 30,
-    bottom: 20
+    bottom: 20,
   },
   viewStyle: {
-    top: 150,
-    alignItems: 'center'
+    flex: 1,
+    backgroundColor: "black",
+    alignItems: "center",
+  },
+  spacerStyle: {
+    margin: 100
   }
 });
 

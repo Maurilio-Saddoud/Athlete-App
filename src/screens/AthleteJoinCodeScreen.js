@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
-import CodeBar from '../components/CodeBar';
+import LoginBar from '../components/LoginBar';
 
 const AthleteJoinCodeScreen = ({ navigation }) => {
   const [term, setTerm] = useState('');
   return (
     <View style = {styles.viewStyle}>
       <Text style={styles.textStyle}>Enter Team Join Code</Text>
-      <CodeBar 
+      <LoginBar 
       text = {"Athlete Code"}
       term = {term}
       onTermChange = {(newTerm) => setTerm(newTerm)}
@@ -22,11 +22,14 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 30
+    fontSize: 30,
+    color: "white",
+    marginTop: 200 
   },
   viewStyle: {
+    flex: 1,
     alignItems: "center",
-    top: 150
+    backgroundColor: "black"
 
   }
 });

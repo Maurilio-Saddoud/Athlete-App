@@ -1,5 +1,10 @@
 {
-  "devToolsPort": 19004,
-  "expoServerPort": 19005,
-  "packagerPort": 19005
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19000,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://4y-u4e.anonymous.athlete-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.4y-u4e.anonymous.athlete-app.exp.direct",
+  "ngrokPid": 60108,
+  "webpackServerPort": null
 }

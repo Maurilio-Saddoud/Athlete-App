@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
+import React from "react";
+import { Text, View, TextInput, StyleSheet } from "react-native";
 
 const CodeBar = ({text, term, onTermChange}) => {
     return <View style = {styles.codebar}>
