@@ -1,14 +1,21 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import CoachAthleteButton from "../components/CoachAthleteButton";
-import { Spacer } from "../components/Spacer";
+import Spacer from "../components/Spacer";
+import { AntDesign } from "@expo/vector-icons";
 
 const CoachOrAthleteScreen = ({ navigation }) => {
   return (
     <View style={styles.viewStyle}>
-      <View style={styles.spacerStyle} />
+      <AntDesign
+        name="left"
+        size={30}
+        style={{ color: "#8ecfff", marginTop: 40, position: "absolute"}}
+      />
+      <Spacer space={200} />
       <Text style={styles.textStyle}>Sign up as</Text>
       <Text style={styles.textStyle}>Coach or Athlete</Text>
+      <Spacer space={40} />
       <CoachAthleteButton text={"Athlete"} navigateto={"AthleteJoinCode"} />
       <CoachAthleteButton text={"Coach"} navigateto={"CoachJoinCreate"} />
     </View>
@@ -26,6 +33,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
     bottom: 20,
+    fontFamily: "goodTimes",
   },
   viewStyle: {
     flex: 1,
@@ -33,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   spacerStyle: {
-    margin: 100
-  }
+    margin: 100,
+  },
 });
 
 export default CoachOrAthleteScreen;

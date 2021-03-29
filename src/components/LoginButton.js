@@ -5,7 +5,7 @@ import { withNavigation } from "react-navigation";
 const LoginButton = ({ navigation }) => {
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate("athleteFlow")}>
+      <TouchableOpacity onPress={() => navigation.navigate("AthleteQ")}>
         <Text style={styles.textStyle}>Login</Text>
       </TouchableOpacity>
     </View>
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     color: "#8ecfff",
     fontSize: 40,
     marginTop: 20,
+    fontFamily: "goodTimes"
   },
 });
 

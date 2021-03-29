@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import * as Font from "expo-font";``
+import * as Font from "expo-font";
 
-import { AppLoading } from "expo-app-loading";
+import AppLoading from "expo-app-loading";
 
 import SigninScreen from "./src/screens/SigninScreen";
 import CoachOrAthleteScreen from "./src/screens/CoachOrAthleteScreen";
@@ -24,6 +24,8 @@ import CoachSettingsScreen from "./src/screens/CoachSettingsScreen";
 const fetchFont = () => {
   return Font.loadAsync({
     abnes: require("./assets/fonts/abnes.ttf"),
+    goodTimes: require("./assets/fonts/good-times-rg.ttf"),
+    papyrus: require("./assets/fonts/papyrus.ttf"),
   });
 };
 
@@ -39,13 +41,13 @@ const switchNavigator = createSwitchNavigator({
     AthleteRegistration: AthleteRegistrationScreen,
   }),
   athleteFlow: createBottomTabNavigator({
-    AthleteQ: AthleteQScreen,
     AthleteData: AthleteDataScreen,
+    AthleteQ: AthleteQScreen,
     AthleteSettings: AthleteSettingsScreen,
   }),
   coachFlow: createBottomTabNavigator({
-    CoachQ: CoachQScreen,
     TeamData: TeamDataScreen,
+    CoachQ: CoachQScreen,
     CoachSettings: CoachSettingsScreen,
   }),
 });
@@ -55,15 +57,16 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  // if (!fontLoaded) {
-  //   return (
-  //     <AppLoading
-  //       startAsync={fetchFont}
-  //       onError={() => console.log("ERROR")}
-  //       onFinish={() => {
-  //         setFontLoaded(true);
-  //       }}
-  //     />
-  //   );
-    return <App/>
-}
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFont}
+        onError={() => console.log("ERROR")}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
+      />
+    );
+  }
+  return <App />;
+};

@@ -17,12 +17,13 @@ const SigninScreen = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.viewStyle}>
+        <Spacer space={40} />
         <Text style={styles.kumoStyle}>KUMO</Text>
         <View style={styles.underlineStyle} />
         <Text style={styles.metricStyle}>Metrics</Text>
-        <Text style={styles.login}>Login:</Text>
+        <Spacer space={30} />
         <LoginBar
-          text={"Username"}
+          text={"Email"}
           term={term}
           onTermChange={(newTerm) => setTerm(newTerm)}
           secure={false}
@@ -33,7 +34,7 @@ const SigninScreen = ({ navigation }) => {
           onTermChange={(newTerm2) => setTerm2(newTerm2)}
           secure={true}
         />
-        <Spacer space={30} />
+        <Spacer space={75} />
         <LoginButton />
         <Spacer space={10} />
         <CreateAccountButton />
@@ -62,11 +63,13 @@ const styles = StyleSheet.create({
     fontFamily: "abnes"
   },
   metricStyle: {
-    fontSize: 35,
+    fontSize: 30,
     color: "#707070",
     bottom: 20,
-    marginLeft: 60,
+    marginLeft: 100,
     fontWeight: "bold",
+    fontFamily: "abnes",
+    padding: 10
   },
   login: {
     alignSelf: "flex-start",

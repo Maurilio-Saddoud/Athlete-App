@@ -5,7 +5,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
   return (
     <View style={styles.viewStyle}>
       <Text style={styles.textStyle}>AthleteRegistrationScreen</Text>
-      <Button title="Register" onPress={() => navigation.navigate("athleteFlow")} />
+      <Button title="Register" onPress={() => navigation.navigate("AthleteQ")} />
     </View>
   );
 };

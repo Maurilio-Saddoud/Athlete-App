@@ -14,7 +14,7 @@ const CoachJoinCodeScreen = ({navigation}) => {
       />
       <Button 
       title="Join Team" 
-      onPress={() => navigation.navigate("coachFlow")}
+      onPress={() => navigation.navigate("TeamData")}
       />
     </View>
   );

@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
   textStyle: {
     fontWeight: "bold",
     color: "#8ecfff",
-    fontSize: 40,
+    fontSize: 30,
+    fontFamily: "goodTimes"
   },
 });
 

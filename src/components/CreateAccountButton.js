@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     color: "#707070",
     fontSize: 25,
     marginTop: 5,
+    fontFamily: "goodTimes"
   },
 });
 
