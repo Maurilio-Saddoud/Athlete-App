@@ -16,7 +16,7 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.viewStyle}>
         <Text style={styles.textStyle}>Enter Team Join Code</Text>
-        <Spacer space={10} />
+        <Spacer space={"10%"} />
         <LoginBar
           text="Athlete Code"
           term={term}
@@ -32,17 +32,21 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
   );
 };
 
-AthleteJoinCodeScreen.navigationOptions = () => {
-  return {
-    header: () => false,
-  };
+AthleteJoinCodeScreen.navigationOptions = {
+  headerStyle: {
+    backgroundColor: "black",
+    shadowColor: 'transparent'
+  },
+  headerTintColor: "#8ecfff",
+  headerBackTitle: "Back",
+  title: ""
 };
 
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 25,
     color: "white",
-    marginTop: "70%",
+    marginTop: "30%",
     fontFamily: "goodTimes"
   },
   viewStyle: {

@@ -7,25 +7,31 @@ import { AntDesign } from "@expo/vector-icons";
 const CoachOrAthleteScreen = ({ navigation }) => {
   return (
     <View style={styles.viewStyle}>
-      <AntDesign
+      {/* <AntDesign
         name="left"
         size={30}
-        style={{ color: "#8ecfff", marginTop: 40, position: "absolute"}}
-      />
-      <Spacer space={200} />
+        style={{ color: "#8ecfff", marginTop: 40, position: "absolute", }}
+      /> */}
+      <Spacer space={"20%"} />
       <Text style={styles.textStyle}>Sign up as</Text>
       <Text style={styles.textStyle}>Coach or Athlete</Text>
       <Spacer space={40} />
-      <CoachAthleteButton text={"Athlete"} navigateto={"AthleteJoinCode"} />
       <CoachAthleteButton text={"Coach"} navigateto={"CoachJoinCreate"} />
+      <CoachAthleteButton text={"Athlete"} navigateto={"AthleteJoinCode"} />
+
     </View>
   );
 };
 
-CoachOrAthleteScreen.navigationOptions = () => {
-  return {
-    header: () => false,
-  };
+CoachOrAthleteScreen.navigationOptions  = {
+    headerStyle: {
+      backgroundColor: "black",
+      shadowColor: 'transparent'
+    },
+    headerTintColor: "#8ecfff",
+    headerBackTitle: "Back",
+    title: ""
+    
 };
 
 const styles = StyleSheet.create({
@@ -39,9 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     alignItems: "center",
-  },
-  spacerStyle: {
-    margin: 100,
   },
 });
 
