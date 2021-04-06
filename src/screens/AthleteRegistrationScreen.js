@@ -1,13 +1,14 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import RegistrationForm from "../components/RegistrationForm";
 
 const AthleteRegistrationScreen = ({ navigation }) => {
   return (
-    <View style={styles.viewStyle}>
-      <Text style={styles.textStyle}>AthleteRegistrationScreen</Text>
+      <View>
+      <RegistrationForm />
       <Button title="Register" onPress={() => navigation.navigate("AthleteQ")} />
-    </View>
-  );
+      </View>
+  )
 };
 
 const styles = StyleSheet.create({

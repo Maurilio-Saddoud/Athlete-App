@@ -3,9 +3,9 @@ import {
   View,
   StyleSheet,
   Text,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity
 } from "react-native";
 import LoginBar from "../components/LoginBar";
 import Spacer from "../components/Spacer";
@@ -23,10 +23,10 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
           onTermChange={(newTerm) => setTerm(newTerm)}
         />
         <Spacer space={40} />
-        <Button
-          title="Join Team"
-          onPress={() => navigation.navigate("AthleteRegistration")}
-        />
+        <TouchableOpacity style = {styles.buttonStyle} 
+        onPress = {() => navigation.navigate("AthleteRegistration")}>
+          <Text style = {styles.opacityStyle}>Join Team</Text>
+        </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -54,6 +54,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "black",
   },
+  opacityStyle: {
+    color: "#8ecfff",
+    fontSize: 20
+  },
+  buttonStyle: {
+    height: 75,
+    width: 140,
+    borderColor: "#8ecfff",
+    marginBottom: 30,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 5
+  }
 });
 
 export default AthleteJoinCodeScreen;
