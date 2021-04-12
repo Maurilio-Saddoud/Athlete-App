@@ -31,7 +31,6 @@ CoachOrAthleteScreen.navigationOptions  = {
     headerTintColor: "#8ecfff",
     headerBackTitle: "Back",
     title: ""
-    
 };
 
 const styles = StyleSheet.create({

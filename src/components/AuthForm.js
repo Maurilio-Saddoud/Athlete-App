@@ -4,7 +4,9 @@ import { Text, TextInput, View, StyleSheet } from "react-native";
 const AuthForm = ({ text, term, onTermChange, secure }) => {
   return (
     <View style={styles.signinStyle}>
-      <Text style={{color: "white"}}>{text}</Text>
+      <Text style={{ color: "#707070", fontSize: 20, fontFamily: "goodTimes" }}>
+        {text}:
+      </Text>
       <TextInput
         style={styles.inputStyle}
         placeholder={text}
@@ -13,7 +15,7 @@ const AuthForm = ({ text, term, onTermChange, secure }) => {
         value={term}
         onChangeText={(newTerm) => onTermChange(newTerm)}
         secureTextEntry={secure}
-        placeholderTextColor="#707070"
+        placeholderTextColor="white"
         color="#8ecfff"
       />
     </View>
@@ -22,17 +24,16 @@ const AuthForm = ({ text, term, onTermChange, secure }) => {
 
 const styles = StyleSheet.create({
   signinStyle: {
-    backgroundColor: "black",
     height: 50,
     width: "90%",
     marginTop: "10%",
     alignSelf: "center",
   },
   inputStyle: {
-    backgroundColor: "grey",
+    backgroundColor: "black",
     flex: 1,
     color: "#8ecfff",
-    fontSize: 25,
+    fontSize: 20,
     textAlign: "left",
     paddingLeft: 10,
     borderRadius: 5,
