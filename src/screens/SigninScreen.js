@@ -12,10 +12,11 @@ import CreateAccountButton from "../components/CreateAccountButton";
 import LoginBar from "../components/LoginBar";
 import LoginButton from "../components/LoginButton";
 import Spacer from "../components/Spacer";
+import {firebase} from "../../firebase/config";
 
 const SigninScreen = ({ navigation }) => {
-  const [term, setTerm] = useState("");
-  const [term2, setTerm2] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onLoginPress = () => {
     firebase
@@ -29,11 +30,15 @@ const SigninScreen = ({ navigation }) => {
           .get()
           .then((firestoreDocument) => {
             if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
+              Alert.alert("User does not exist anymore.");
               return;
             }
             const user = firestoreDocument.data();
-            navigation.navigate("AthleteQ");
+            if(user["type"] === "coach") {
+              navigation.navigate("coachFlow");
+            } else {
+              navigation.navigate("athleteFlow")
+            }
           })
           .catch((error) => {
             Alert.alert(error);
@@ -54,18 +59,18 @@ const SigninScreen = ({ navigation }) => {
         <Spacer space={30} />
         <LoginBar
           text={"Email"}
-          term={term}
-          onTermChange={(newTerm) => setTerm(newTerm)}
+          term={email}
+          onTermChange={setEmail}
           secure={false}
         />
         <LoginBar
           text={"Password"}
-          term={term2}
-          onTermChange={(newTerm2) => setTerm2(newTerm2)}
+          term={password}
+          onTermChange={setPassword}
           secure={true}
         />
         <Spacer space={75} />
-        <TouchableOpacity onPress={() => onLoginPress}>
+        <TouchableOpacity onPress={() => onLoginPress()}>
           <Text style={styles.textStyle}>Login</Text>
         </TouchableOpacity>
         <Spacer space={10} />

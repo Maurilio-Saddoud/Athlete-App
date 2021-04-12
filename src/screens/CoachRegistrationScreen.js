@@ -31,8 +31,9 @@ const CoachRegistrationScreen = ({ navigation }) => {
         const newTeam = firebase.firestore().collection("teams");
         newTeam
           .add({
-            signUpCode: "000000",
+            teamName: name,
             mainCoachID: uid,
+            signUpCode: "000000",
             coachCode: "000000",
           })
           .then((docRef) => {
@@ -45,7 +46,7 @@ const CoachRegistrationScreen = ({ navigation }) => {
                 const userRef = firebase.firestore().collection("users");
                 userRef
                   .doc(uid)
-                  .set({ teamId: docRef.id })
+                  .set({ teamId: docRef.id, type: "coach" })
                   .then(() => {
                     navigation.navigate("coachFlow");
                   })
