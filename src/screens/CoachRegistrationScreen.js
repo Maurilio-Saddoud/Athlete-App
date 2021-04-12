@@ -28,9 +28,17 @@ const CoachRegistrationScreen = ({ navigation }) => {
           name,
         };
         const newTeam = firebase.firestore().collection("Teams");
-        newTeam.doc("Swimming").collection("associateCoaches")
-        .doc(uid)
-        .set(data)
+        newTeam.add({
+          signUpCode: '000000',
+          mainCoachID: uid,
+          coachCode: '000000'
+        }).then((docRef) => {
+          newTeam.doc(docRef.id)
+          .collection("associateCoaches")
+          .doc(uid)
+          .set(data)
+        }) 
+        
         
       });
   };
