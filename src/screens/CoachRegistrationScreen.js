@@ -26,20 +26,43 @@ const CoachRegistrationScreen = ({ navigation }) => {
           id: uid,
           email,
           name,
+          type: "coach",
         };
-        const newTeam = firebase.firestore().collection("Teams");
-        newTeam.add({
-          signUpCode: '000000',
-          mainCoachID: uid,
-          coachCode: '000000'
-        }).then((docRef) => {
-          newTeam.doc(docRef.id)
-          .collection("associateCoaches")
-          .doc(uid)
-          .set(data)
-        }) 
-        
-        
+        const newTeam = firebase.firestore().collection("teams");
+        newTeam
+          .add({
+            signUpCode: "000000",
+            mainCoachID: uid,
+            coachCode: "000000",
+          })
+          .then((docRef) => {
+            newTeam
+              .doc(docRef.id)
+              .collection("associateCoaches")
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                const userRef = firebase.firestore().collection("users");
+                userRef
+                  .doc(uid)
+                  .set({ teamId: docRef.id })
+                  .then(() => {
+                    navigation.navigate("coachFlow");
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              })
+              .catch((error) => {
+                alert(error);
+              });
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      })
+      .catch((error) => {
+        alert(error);
       });
   };
 

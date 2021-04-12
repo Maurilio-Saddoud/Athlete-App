@@ -16,7 +16,7 @@ const AuthForm = ({ text, term, onTermChange, secure }) => {
         onChangeText={(newTerm) => onTermChange(newTerm)}
         secureTextEntry={secure}
         placeholderTextColor="#707070"
-        color="#8ecfff"
+        color="white"
       />
     </View>
   );

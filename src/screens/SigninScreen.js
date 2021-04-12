@@ -5,6 +5,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import CreateAccountButton from "../components/CreateAccountButton";
 import LoginBar from "../components/LoginBar";
@@ -14,6 +16,34 @@ import Spacer from "../components/Spacer";
 const SigninScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
   const [term2, setTerm2] = useState("");
+
+  const onLoginPress = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => {
+        const uid = response.user.uid;
+        const usersRef = firebase.firestore().collection("users");
+        usersRef
+          .doc(uid)
+          .get()
+          .then((firestoreDocument) => {
+            if (!firestoreDocument.exists) {
+              alert("User does not exist anymore.");
+              return;
+            }
+            const user = firestoreDocument.data();
+            navigation.navigate("AthleteQ");
+          })
+          .catch((error) => {
+            Alert.alert(error);
+          });
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.viewStyle}>
@@ -35,7 +65,9 @@ const SigninScreen = ({ navigation }) => {
           secure={true}
         />
         <Spacer space={75} />
-        <LoginButton />
+        <TouchableOpacity onPress={() => onLoginPress}>
+          <Text style={styles.textStyle}>Login</Text>
+        </TouchableOpacity>
         <Spacer space={10} />
         <CreateAccountButton />
       </View>
@@ -60,7 +92,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#8ecfff",
     marginTop: 150,
-    fontFamily: "abnes"
+    fontFamily: "abnes",
   },
   metricStyle: {
     fontSize: 30,
@@ -69,11 +101,17 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     fontWeight: "bold",
     fontFamily: "abnes",
-    padding: 10
+    padding: 10,
   },
   login: {
     alignSelf: "flex-start",
     left: 50,
+  },
+  textStyle: {
+    color: "#8ecfff",
+    fontSize: 40,
+    marginTop: 20,
+    fontFamily: "goodTimes"
   },
 });
 
