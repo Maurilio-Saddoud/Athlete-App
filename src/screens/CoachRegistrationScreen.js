@@ -3,6 +3,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import AuthForm from "../components/AuthForm";
 import Spacer from "../components/Spacer";
+import { firebase } from "../../firebase/config";
 
 const CoachRegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -16,6 +17,22 @@ const CoachRegistrationScreen = ({ navigation }) => {
       Alert.alert("Passwords don't match.");
       return;
     }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        const uid = response.user.uid;
+        const data = {
+          id: uid,
+          email,
+          name,
+        };
+        const newTeam = firebase.firestore().collection("Teams");
+        newTeam.doc("Swimming").collection("associateCoaches")
+        .doc(uid)
+        .set(data)
+        
+      });
   };
 
   return (
