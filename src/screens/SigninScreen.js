@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableOpacity,
   Alert,
+  Vibration,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CreateAccountButton from "../components/CreateAccountButton";
@@ -18,6 +19,7 @@ import { firebase } from "../../firebase/config";
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [validCreds, setValidCreds] = useState(false);
 
   const onLoginPress = () => {
     firebase
@@ -45,38 +47,50 @@ const SigninScreen = ({ navigation }) => {
             Alert.alert(error);
           });
       })
-      .catch((error) => {
-        Alert.alert(error);
+      .catch((exception) => {
+        setValidCreds(true);
+        Vibration.vibrate();
+        const timer = setTimeout(() => {
+          setValidCreds(false);
+        }, 2000);
+        return () => clearTimeout(timer);
       });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={styles.viewStyle}>
-          <Spacer space={40} />
-          <Text style={styles.kumoStyle}>KUMO</Text>
-          <View style={styles.underlineStyle} />
-          <Text style={styles.metricStyle}>Metrics</Text>
-          <Spacer space={30} />
-          <LoginBar
-            text={"Email"}
-            term={email}
-            onTermChange={setEmail}
-            secure={false}
-          />
-          <LoginBar
-            text={"Password"}
-            term={password}
-            onTermChange={setPassword}
-            secure={true}
-          />
-          <Spacer space={75} />
-          <TouchableOpacity onPress={() => onLoginPress()}>
-            <Text style={styles.textStyle}>Login</Text>
-          </TouchableOpacity>
-          <Spacer space={10} />
-          <CreateAccountButton />
-        </View>
+      <View style={styles.viewStyle}>
+        <Spacer space={40} />
+        <Text style={styles.kumoStyle}>KUMO</Text>
+        <View style={styles.underlineStyle} />
+        <Text style={styles.metricStyle}>Metrics</Text>
+        <Spacer space={"5%"} />
+        <LoginBar
+          text={"Email"}
+          term={email}
+          onTermChange={setEmail}
+          secure={false}
+        />
+        <LoginBar
+          text={"Password"}
+          term={password}
+          onTermChange={setPassword}
+          secure={true}
+        />
+        {validCreds ? (
+          <Text style={{ color: "red", margin: 10, fontSize: 17 }}>
+            Incorrect email/password combination
+          </Text>
+        ) : (
+          <Text style={{ color: "black", margin: 10, fontSize: 17 }}> </Text>
+        )}
+        <Spacer space={"4%"} />
+        <TouchableOpacity onPress={() => onLoginPress()}>
+          <Text style={styles.textStyle}>Login</Text>
+        </TouchableOpacity>
+        <Spacer space={10} />
+        <CreateAccountButton />
+      </View>
     </TouchableWithoutFeedback>
   );
 };

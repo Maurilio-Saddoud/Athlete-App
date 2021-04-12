@@ -7,11 +7,6 @@ import { AntDesign } from "@expo/vector-icons";
 const CoachOrAthleteScreen = ({ navigation }) => {
   return (
     <View style={styles.viewStyle}>
-      {/* <AntDesign
-        name="left"
-        size={30}
-        style={{ color: "#8ecfff", marginTop: 40, position: "absolute", }}
-      /> */}
       <Spacer space={"20%"} />
       <Text style={styles.textStyle}>Sign up as</Text>
       <Text style={styles.textStyle}>Coach or Athlete</Text>
