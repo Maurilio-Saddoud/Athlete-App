@@ -4,7 +4,7 @@ import { Text, TextInput, View, StyleSheet } from "react-native";
 const AuthForm = ({ text, term, onTermChange, secure }) => {
   return (
     <View style={styles.signinStyle}>
-      <Text style={{ color: "#707070", fontSize: 20, fontFamily: "goodTimes" }}>
+      <Text style={{ color: "#8ecfff", fontSize: 20, fontFamily: "goodTimes" }}>
         {text}:
       </Text>
       <TextInput
@@ -15,7 +15,7 @@ const AuthForm = ({ text, term, onTermChange, secure }) => {
         value={term}
         onChangeText={(newTerm) => onTermChange(newTerm)}
         secureTextEntry={secure}
-        placeholderTextColor="white"
+        placeholderTextColor="#707070"
         color="#8ecfff"
       />
     </View>
