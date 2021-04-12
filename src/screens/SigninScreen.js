@@ -6,13 +6,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
-  Alert
+  Alert,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CreateAccountButton from "../components/CreateAccountButton";
 import LoginBar from "../components/LoginBar";
 import LoginButton from "../components/LoginButton";
 import Spacer from "../components/Spacer";
-import {firebase} from "../../firebase/config";
+import { firebase } from "../../firebase/config";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -34,10 +35,10 @@ const SigninScreen = ({ navigation }) => {
               return;
             }
             const user = firestoreDocument.data();
-            if(user["type"] === "coach") {
+            if (user["type"] === "coach") {
               navigation.navigate("coachFlow");
             } else {
-              navigation.navigate("athleteFlow")
+              navigation.navigate("athleteFlow");
             }
           })
           .catch((error) => {
@@ -51,31 +52,31 @@ const SigninScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.viewStyle}>
-        <Spacer space={40} />
-        <Text style={styles.kumoStyle}>KUMO</Text>
-        <View style={styles.underlineStyle} />
-        <Text style={styles.metricStyle}>Metrics</Text>
-        <Spacer space={30} />
-        <LoginBar
-          text={"Email"}
-          term={email}
-          onTermChange={setEmail}
-          secure={false}
-        />
-        <LoginBar
-          text={"Password"}
-          term={password}
-          onTermChange={setPassword}
-          secure={true}
-        />
-        <Spacer space={75} />
-        <TouchableOpacity onPress={() => onLoginPress()}>
-          <Text style={styles.textStyle}>Login</Text>
-        </TouchableOpacity>
-        <Spacer space={10} />
-        <CreateAccountButton />
-      </View>
+        <View style={styles.viewStyle}>
+          <Spacer space={40} />
+          <Text style={styles.kumoStyle}>KUMO</Text>
+          <View style={styles.underlineStyle} />
+          <Text style={styles.metricStyle}>Metrics</Text>
+          <Spacer space={30} />
+          <LoginBar
+            text={"Email"}
+            term={email}
+            onTermChange={setEmail}
+            secure={false}
+          />
+          <LoginBar
+            text={"Password"}
+            term={password}
+            onTermChange={setPassword}
+            secure={true}
+          />
+          <Spacer space={75} />
+          <TouchableOpacity onPress={() => onLoginPress()}>
+            <Text style={styles.textStyle}>Login</Text>
+          </TouchableOpacity>
+          <Spacer space={10} />
+          <CreateAccountButton />
+        </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     color: "#8ecfff",
     fontSize: 40,
     marginTop: 20,
-    fontFamily: "goodTimes"
+    fontFamily: "goodTimes",
   },
 });
 

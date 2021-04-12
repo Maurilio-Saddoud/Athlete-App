@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 
-const AuthForm = ({ text, term, onTermChange, secure }) => {
+const AuthForm = ({ text, term, onTermChange, secure, cap="none" }) => {
   return (
     <View style={styles.signinStyle}>
       <Text style={{ color: "#8ecfff", fontSize: 20, fontFamily: "goodTimes" }}>
@@ -10,7 +10,7 @@ const AuthForm = ({ text, term, onTermChange, secure }) => {
       <TextInput
         style={styles.inputStyle}
         placeholder={text}
-        autoCapitalize="none"
+        autoCapitalize={cap}
         autoCorrect={false}
         value={term}
         onChangeText={(newTerm) => onTermChange(newTerm)}

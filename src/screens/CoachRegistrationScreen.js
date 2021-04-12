@@ -71,7 +71,7 @@ const CoachRegistrationScreen = ({ navigation }) => {
     <View style={styles.screenStyle}>
       <KeyboardAwareScrollView>
         <Text style={styles.textStyle}>Coach/Team Registration</Text>
-        <AuthForm text="Full Name" onTermChange={setName} />
+        <AuthForm text="Full Name" onTermChange={setName} cap="words" />
         <AuthForm text="Email" onTermChange={setEmail} />
         <AuthForm text="Password" onTermChange={setPassword} secure={true} />
         <AuthForm
