@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 
-const randomNumberGenerator = (usedCodes) => {
-  let newCode = "";
-  for (let i = 0; i < 6; i++) {
-    newCode += Math.floor(Math.random() * 10);
-  }
-  return newCode;
-};
-
 const CoachSettingsScreen = ({ navigation }) => {
   const [usedCodes, setUsedCodes] = useState(new Set());
   const [teamCode, setTeamCode] = useState("");
+
+  const randomNumberGenerator = () => {
+    let newCode = "";
+    for (let i = 0; i < 6; i++) {
+      newCode += Math.floor(Math.random() * 10);
+    }
+    return newCode;
+  };
 
   return (
     <View style={styles.viewStyle}>
