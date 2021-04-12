@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
   },
   opacityStyle: {
     color: "#8ecfff",
-    fontSize: 20
+    fontSize: 25
   },
   buttonStyle: {
     height: 75,
-    width: 140,
+    width: 150,
     borderColor: "#8ecfff",
     marginBottom: 30,
     borderRadius: 50,

@@ -1,20 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
-import { TextInput } from 'react-native-elements';
+import CodeBar from '../components/CodeBar';
 
 
 const RegistrationForm = () => {
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
     return (
-        <Text style = {styles.textStyle}>Athlete Registration</Text>
+        <View>
+        <Text style = {styles.textStyle}>Registration</Text>
+        <CodeBar text = "Athlete Name"
+        term = {name}
+        onTermChange = {setName}
+        />
+        <CodeBar 
+        text = "Athlete Age"
+        term = {age}
+        onTermChange = {setAge}
+        />
+        </View>
+
+        
+
     )
 
 };
 
 const styles = StyleSheet.create({
     textStyle: {
-        color: "#8ecfff"
+        color: "white",
+        fontSize: 30,
+        fontFamily: "abnes"
 
     }
+
 });
 
 export default RegistrationForm;
