@@ -15,11 +15,12 @@ import LoginBar from "../components/LoginBar";
 import LoginButton from "../components/LoginButton";
 import Spacer from "../components/Spacer";
 import { firebase } from "../../firebase/config";
+import Animated from "react-native-reanimated";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validCreds, setValidCreds] = useState(false);
+  const [opacity, setOpacity] = useState(0);
 
   const onLoginPress = () => {
     firebase
@@ -48,10 +49,10 @@ const SigninScreen = ({ navigation }) => {
           });
       })
       .catch((exception) => {
-        setValidCreds(true);
+        setOpacity(1);
         Vibration.vibrate();
         const timer = setTimeout(() => {
-          setValidCreds(false);
+          setOpacity(0);
         }, 2000);
         return () => clearTimeout(timer);
       });
@@ -77,13 +78,11 @@ const SigninScreen = ({ navigation }) => {
           onTermChange={setPassword}
           secure={true}
         />
-        {validCreds ? (
-          <Text style={{ color: "red", margin: 10, fontSize: 17 }}>
+        <View style={{opacity: opacity}}>
+          <Text style={styles.toastStyle}>
             Incorrect email/password combination
           </Text>
-        ) : (
-          <Text style={{ color: "black", margin: 10, fontSize: 17 }}> </Text>
-        )}
+        </View>
         <Spacer space={"4%"} />
         <TouchableOpacity onPress={() => onLoginPress()}>
           <Text style={styles.textStyle}>Login</Text>
@@ -132,6 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 20,
     fontFamily: "goodTimes",
+  },
+  toastStyle: {
+    color: "red",
+    margin: 10,
+    fontSize: 17,
   },
 });
 
