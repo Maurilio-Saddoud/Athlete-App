@@ -20,6 +20,7 @@ import AthleteSettingsScreen from "./src/screens/AthleteSettingsScreen";
 import CoachQScreen from "./src/screens/CoachQScreen";
 import TeamDataScreen from "./src/screens/TeamDataScreen";
 import CoachSettingsScreen from "./src/screens/CoachSettingsScreen";
+import ByPassScreen from "./src/screens/ByPassScreen";
 
 const fetchFont = () => {
   return Font.loadAsync({
@@ -31,6 +32,7 @@ const fetchFont = () => {
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
+    ByPass: ByPassScreen,
     Signin: SigninScreen,
     CoachOrAthlete: CoachOrAthleteScreen,
     CoachJoinCreate: CoachJoinCreateScreen,

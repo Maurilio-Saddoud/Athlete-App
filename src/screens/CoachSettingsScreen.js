@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, Alert } from "react-native";
+import { firebase } from '../../firebase/config';
 
 const CoachSettingsScreen = ({ navigation }) => {
   const [usedCodes, setUsedCodes] = useState(new Set());
   const [teamCode, setTeamCode] = useState("");
+  const user = firebase.auth().currentUser;
 
   const randomNumberGenerator = () => {
     let newCode = "";
@@ -13,10 +15,19 @@ const CoachSettingsScreen = ({ navigation }) => {
     return newCode;
   };
 
+  const onLogOutPress = () => {
+    firebase.auth().signOut()
+    .then(() => {
+      navigation.navigate("loginFlow");
+    }).catch((error) => {
+        Alert.alert("Logout Failed");
+    })
+  }
+
   return (
     <View style={styles.viewStyle}>
       <Text style={styles.textStyle}>CoachSettingsScreen</Text>
-      <Button title="Logout" onPress={() => navigation.navigate("loginFlow")} />
+      <Button title="Logout" onPress={onLogOutPress} />
       {!teamCode ? (
         <Button
           title="Generate Join Code"
