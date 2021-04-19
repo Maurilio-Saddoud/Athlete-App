@@ -5,7 +5,6 @@ import { firebase } from '../../firebase/config';
 
 const ByPassScreen = ({ navigation }) => {
     const user = firebase.auth().currentUser;
-    console.log(user);
     if(user){
         if(user.type === "athlete"){
             navigation.navigate('athleteFlow');
