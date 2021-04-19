@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import AuthForm from "../components/AuthForm";
 import Spacer from "../components/Spacer";
 import { firebase } from "../../firebase/config";
-import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-community/async-storage';
 
 const CoachRegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");

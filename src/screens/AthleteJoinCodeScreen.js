@@ -5,7 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import LoginBar from "../components/LoginBar";
 import Spacer from "../components/Spacer";
@@ -23,9 +23,11 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
           onTermChange={(newTerm) => setTerm(newTerm)}
         />
         <Spacer space={40} />
-        <TouchableOpacity style = {styles.buttonStyle} 
-        onPress = {() => navigation.navigate("AthleteRegistration")}>
-          <Text style = {styles.opacityStyle}>Join Team</Text>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => navigation.navigate("AthleteRegistration")}
+        >
+          <Text style={styles.opacityStyle}>Join Team</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -35,11 +37,11 @@ const AthleteJoinCodeScreen = ({ navigation }) => {
 AthleteJoinCodeScreen.navigationOptions = {
   headerStyle: {
     backgroundColor: "black",
-    shadowColor: 'transparent'
+    shadowColor: "transparent",
   },
   headerTintColor: "#8ecfff",
   headerBackTitle: "Back",
-  title: ""
+  title: "",
 };
 
 const styles = StyleSheet.create({
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "white",
     marginTop: "30%",
-    fontFamily: "goodTimes"
+    fontFamily: "goodTimes",
   },
   viewStyle: {
     flex: 1,
@@ -56,18 +58,19 @@ const styles = StyleSheet.create({
   },
   opacityStyle: {
     color: "#8ecfff",
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: "goodTimes"
   },
   buttonStyle: {
     height: 75,
-    width: 150,
+    width: 200,
     borderColor: "#8ecfff",
     marginBottom: 30,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 5
-  }
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 5,
+  },
 });
 
 export default AthleteJoinCodeScreen;
