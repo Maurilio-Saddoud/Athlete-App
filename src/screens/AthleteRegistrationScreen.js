@@ -1,28 +1,89 @@
 import React, {useState} from "react";
-import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
-import RegistrationForm from "../components/RegistrationForm";
+import { View, StyleSheet, Text, Button, TouchableOpacity, Alert } from "react-native";
 import Spacer from '../components/Spacer';
 import AuthForm from '../components/AuthForm';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { firebase } from "../../firebase/config";
 
 const AthleteRegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const onRegisterPress = () => {
+    if (password !== confirmPassword) {
+      Alert.alert("Passwords don't match.");
+      return;
+    }
+    firebase.auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        const uid = response.user.uid;
+        const user = response.user;
+        user.updateProfile({
+          displayName: name
+        });
+        const data = {
+          id: uid,
+          email,
+          name,
+          type: "athlete"
+        };
+        const Team = firebase.firestore().collection("teams");
+        Team.where("signUpCode", "==", "000000")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            Team.doc(doc.id)
+            .collection("athletes")
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              const userRef = firebase.firestore().collection("users");
+                userRef
+                  .doc(uid)
+                  .set({ teamId: doc.id, type: "athlete", name})
+                  .then(() => {
+                    navigation.navigate("athleteFlow");
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+            }).catch((error) => {
+              alert(error);
+            });
+          })
+
+        }).catch((error) => {
+          console.log("here");
+          alert(error);
+        })
+
+      }).catch((error) => {
+        console.log("here");
+        alert(error);
+      });
+        
+  };
   return (
-    <KeyboardAwareScrollView>
       <View style = {styles.viewStyle}>
+        <KeyboardAwareScrollView>
         <Text style = {styles.textStyle}>Athlete Registration</Text>
         <AuthForm text = "Full Name" onTermChange= {setName} cap = "words"/>
         <AuthForm text = "Email" onTermChange = {setEmail} />
         <AuthForm text = "Password" onTermChange = {setPassword} secure = {true}/>
+        <AuthForm text = "Confirm Password" onTermChange = {setConfirmPassword} secure = {true}/>
         <Spacer space={"7%"} />
-        <TouchableOpacity onPress = {() => navigation.navigate("AthleteQ")}
-          style = {styles.buttonStyle}>
-          <Text style = {styles.opacityStyle}>Register</Text>
-        </TouchableOpacity>
+        <View style = {styles.buttonContainer}>
+          <TouchableOpacity onPress = {onRegisterPress}
+            style = {styles.buttonStyle}>
+            <Text style = {styles.opacityStyle}>Register</Text>
+          </TouchableOpacity>
+        </View>
+        </KeyboardAwareScrollView>
       </View>
-    </KeyboardAwareScrollView>
+   
   )
 };
 
@@ -46,8 +107,7 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     flex: 1,
-    backgroundColor: "black",
-    alignItems: 'center'
+    backgroundColor: "black"
   },
   opacityStyle: {
     color: '#8ecfff',
@@ -63,6 +123,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 5
   },
+  buttonContainer: {
+    alignItems: 'center'
+  }
 });
 
 export default AthleteRegistrationScreen;

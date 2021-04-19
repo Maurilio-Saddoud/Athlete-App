@@ -7,8 +7,12 @@ const ByPassScreen = ({ navigation }) => {
     const user = firebase.auth().currentUser;
     console.log(user);
     if(user){
-        navigation.navigate('coachFlow');
-    } else{
+        if(user.type === "athlete"){
+            navigation.navigate('athleteFlow');
+        } else if(user.type === "coach"){
+            navigation.navigate("coachFlow");
+        }
+    }else{
         navigation.navigate('Signin');
     }
     return( 
