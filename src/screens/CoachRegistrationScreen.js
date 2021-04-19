@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import AuthForm from "../components/AuthForm";
 import Spacer from "../components/Spacer";
 import { firebase } from "../../firebase/config";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const CoachRegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -22,16 +23,20 @@ const CoachRegistrationScreen = ({ navigation }) => {
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
         const uid = response.user.uid;
+        const user = response.user;
+        user.updateProfile({
+          displayName: name
+        });
         const data = {
           id: uid,
           email,
           name,
-          type: "coach",
+          type: "coach"
         };
         const newTeam = firebase.firestore().collection("teams");
         newTeam
           .add({
-            teamName: name,
+            teamName: teamName,
             mainCoachID: uid,
             signUpCode: "000000",
             coachCode: "000000",
@@ -46,7 +51,7 @@ const CoachRegistrationScreen = ({ navigation }) => {
                 const userRef = firebase.firestore().collection("users");
                 userRef
                   .doc(uid)
-                  .set({ teamId: docRef.id, type: "coach" })
+                  .set({ teamId: docRef.id, type: "coach", name})
                   .then(() => {
                     navigation.navigate("coachFlow");
                   })

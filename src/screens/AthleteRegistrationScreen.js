@@ -1,18 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import RegistrationForm from "../components/RegistrationForm";
 import Spacer from '../components/Spacer';
+import AuthForm from '../components/AuthForm';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const AthleteRegistrationScreen = ({ navigation }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
+    <KeyboardAwareScrollView>
       <View style = {styles.viewStyle}>
-      <RegistrationForm />
-      <Spacer space = {20} />
-      <TouchableOpacity onPress = {() => navigation.navigate("AthleteQ")}
-      style = {styles.buttonStyle}>
-        <Text  style = {styles.opacityStyle}>Register</Text>
-      </TouchableOpacity>
+        <Text style = {styles.textStyle}>Athlete Registration</Text>
+        <AuthForm text = "Full Name" onTermChange= {setName} cap = "words"/>
+        <AuthForm text = "Email" onTermChange = {setEmail} />
+        <AuthForm text = "Password" onTermChange = {setPassword} secure = {true}/>
+        <Spacer space={"7%"} />
+        <TouchableOpacity onPress = {() => navigation.navigate("AthleteQ")}
+          style = {styles.buttonStyle}>
+          <Text style = {styles.opacityStyle}>Register</Text>
+        </TouchableOpacity>
       </View>
+    </KeyboardAwareScrollView>
   )
 };
 
@@ -30,11 +40,14 @@ AthleteRegistrationScreen.navigationOptions = {
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 30,
+    color: "white",
+    fontFamily: "goodTimes",
+    textAlign: "center",
   },
   viewStyle: {
     flex: 1,
     backgroundColor: "black",
-    alignItems: "center",
+    alignItems: 'center'
   },
   opacityStyle: {
     color: '#8ecfff',
