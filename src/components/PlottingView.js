@@ -4,20 +4,17 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 const PlottingView = () => {
     return (
         <View style = {styles.viewStyle}>
-            <Text style = {styles.textStyle}>Davidson Swimming</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     viewStyle: {
-        height: 400,
-        width: 375,
-        backgroundColor: 'black',
+        height: 300,
+        width: 400,
+        backgroundColor: '#696969',
         marginTop: 20,
         alignItems: 'center',
-        borderColor: '#8ecfff',
-        borderWidth: 5
     },
     textStyle: {
         color: '#8ecfff',

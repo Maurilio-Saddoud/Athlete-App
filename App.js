@@ -49,12 +49,61 @@ const switchNavigator = createSwitchNavigator({
     AthleteSettings: AthleteSettingsScreen,
   }),
   coachFlow: createBottomTabNavigator({
+    //Renaming pages for tab navigator
+    /*
     dataFlow: createStackNavigator({
       TeamData: TeamDataScreen,
       AthleteInfo: AthleteInfoScreen
     }),
     CoachQ: CoachQScreen,
     CoachSettings: CoachSettingsScreen,
+    */
+    'Team Data': createStackNavigator({
+      TeamData: TeamDataScreen,
+      AthleteInfo: AthleteInfoScreen
+    }),
+    'Questions': CoachQScreen,
+    'Settings': CoachSettingsScreen,
+  },
+  {
+    //CHANGE TO CUSTOM TAB NAVIGATOR??? https://reactnavigation.org/docs/bottom-tab-navigator/
+    //Styling
+    // Documentation - https://reactnavigation.org/docs/bottom-tab-navigator/
+    tabBarOptions: {
+      activeTintColor: "black",
+      activeBackgroundColor: "#8ecfff",
+      inactiveBackgroundColor: "black",
+      showIcon: false,  
+
+      tabStyle:{
+        flexDirection: 'column', 
+        justifyContent: 'center',  //centers the content vertically   
+      }  ,
+
+      labelStyle:{
+        fontSize: 13,
+        fontFamily: "goodTimes",
+        fontWeight: "bold",
+        alignItems: 'center', //Centers the text horizontally
+      }
+
+        
+      /*
+      tabStyle: {
+        backgroundColor: "gray",
+        flexDirection: "column", 
+        activeTintColor: "white",
+        inactiveTintColor: "#8ecfff",
+           
+      } ,
+
+      labelStyle: {
+        fontSize: 20,
+        fontFamily: "goodTimes",
+        fontWeight: "bold"
+      }
+      */
+    }
   })
 });
 

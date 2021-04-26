@@ -19,17 +19,20 @@ const AthleteBar = ({ item, navigation }) => {
 
 const styles = StyleSheet.create({
     viewStyle: {
-        borderColor: '#8ecfff',
-        borderWidth: 5,
+        borderColor: 'white',
+        borderWidth: 1,
         flexDirection: 'column',
         alignItems: 'flex-start',
-        height: 60
+        height: 60,
+        borderRadius: 50,
+        marginTop: 5
 
     },
     textStyle: {
-        color: 'white',
+        color: '#8ecfff',
         fontSize: 20,
-        marginVertical: 12
+        marginVertical: 15,
+        marginLeft: 5
         
     },
     opacityStyle: {
