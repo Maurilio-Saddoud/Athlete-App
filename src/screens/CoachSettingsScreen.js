@@ -8,11 +8,18 @@ const CoachSettingsScreen = ({ navigation }) => {
   const uid = firebase.auth().currentUser.uid;
   const userRef = firebase.firestore().collection("users").doc(uid);
 
-  var coachCode;
+  
   var [signUpCode, setSignUpCode] = useState("");
-  var teamId;
+  let teamId = () => {
+    var tempTeamId;
+    userRef
+      .get()
+      .then((user) => {
+        tempTeamId = user.data().teamId;
+      });
+    return tempTeamId;
+  };
   var teamName;
-  var teamRef;
   
 
   useEffect(() => {
@@ -23,10 +30,11 @@ const CoachSettingsScreen = ({ navigation }) => {
       })
       .then(() => {
         //console.log("Team ID: " + teamId)
-        teamRef = firebase.firestore().collection("teams").doc(teamId);
+        let teamRef = firebase.firestore().collection("teams").doc(teamId);
         teamRef
           .get()
           .then((team) => {
+            //console.log(teamRef);
             coachCode = team.data().coachCode;
             setSignUpCode(team.data().signUpCode);
             //console.log(signUpCode);
@@ -45,6 +53,7 @@ const CoachSettingsScreen = ({ navigation }) => {
       });
   }, []);
 
+  
   const checkCoachCode = () => {
     if (coachCode) return true;
     else return false;
@@ -58,10 +67,12 @@ const CoachSettingsScreen = ({ navigation }) => {
   
 
   var toggleAthlete = () => {
+    console.log("teamID: " + teamId)
+    let teamRef = firebase.firestore().collection("teams").doc(teamId);
     console.log("1",signUpCode)
-    console.log(teamId);
+    //console.log(teamId);
     if (isAthleteCode) {
-      console.log(teamRef);
+      console.log("team ID " + teamId);
       teamRef
         .update({
           signUpCode: "",

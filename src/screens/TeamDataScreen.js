@@ -13,17 +13,18 @@ const TeamDataScreen = ({navigation}) => {
   const teamRef = firebase.firestore().collection('teams');
   const [athletes, setAthletes] = useState([]);
   const [searchTerm, setSearchTerm ] = useState('');
-
+  var coachId;
   const athleteData = (item) => {
     var userForCompoment;
-    teamRef.doc("7TCfCUVylFHGyteHQcbn").collection("athletes").doc(item)
+    teamRef.doc(coachId).collection("athletes").doc(item)
     .get()
     .then((firestoreDocument) => {
       if (!firestoreDocument.exists) {
         Alert.alert("User does not exist anymore.");
         return;
       }
-      userForCompoment = firestoreDocument.data()
+      console.log(firestoreDocument.data())
+      console.log(userForCompoment)
       return userForCompoment
     }).catch((error) => {
       Alert.alert(error)
@@ -35,6 +36,7 @@ const TeamDataScreen = ({navigation}) => {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
+        coachId = doc.id
         teamRef.doc(doc.id).collection("athletes").get()
         .then((query) => {
           query.forEach((athleteDoc) => {
@@ -66,6 +68,7 @@ const TeamDataScreen = ({navigation}) => {
         data = {athletes}
         renderItem = {({ item }) => {
           const athleteItem = athleteData(item);
+          //console.log(athleteItem)
           return (
               <AthleteBar item = {athleteItem}/>
           )
