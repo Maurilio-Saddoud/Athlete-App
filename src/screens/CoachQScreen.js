@@ -1,3 +1,7 @@
+//QUESTIONS
+//How to get the users team id when the app loads
+//How to wrap current questions text so delete button stays in place
+
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList} from "react-native";
 import CoachQuestionsInput from "../components/CoachQuestionsInput";
@@ -164,8 +168,8 @@ const CoachQScreen = (props) => {
 
 const styles = StyleSheet.create({
   viewStyle: {
-    paddingTop: 20,
-    paddingHorizontal:10,
+    paddingVertical: "7%",
+    paddingHorizontal: "2%",
     backgroundColor: "black",
     flex: 1,
   },
@@ -196,7 +200,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#8ecfff",
     fontSize: 25,
-    fontFamily: "goodTimes"
+    fontFamily:
+    "goodTimes"
   },
   listContainer: {
     padding: 10,
