@@ -4,34 +4,34 @@ import { firebase } from "../../firebase/config";
 import DisplayJoinCode from "../components/DisplayJoinCode";
 
 const CoachSettingsScreen = ({ navigation }) => {
-  var uid = firebase.auth().currentUser.uid;
-  var userRef = firebase.firestore().collection("users").doc(uid);
+  const [isAthleteCode, changeAthleteCode] = useState(false);
+  const uid = firebase.auth().currentUser.uid;
+  const userRef = firebase.firestore().collection("users").doc(uid);
 
-  var [coachCode, setCoachCode] = useState("");
-  var [signUpCode, setSignUpCode] = useState(""); //update this state before rendering screen somehow
-  var [teamId, setTeamId] = useState("");
-  var [teamName, setTeamName] = useState("");
-  var [teamRef, setTeamRef] = useState("");
-  var [isAthleteCode, changeAthleteCode] = useState(false);
+  var coachCode;
+  var [signUpCode, setSignUpCode] = useState("");
+  var teamId;
+  var teamName;
+  var teamRef;
+  
 
   useEffect(() => {
     userRef
       .get()
       .then((user) => {
-        setTeamId(user.data().teamId)
+        teamId = user.data().teamId;
       })
-      
       .then(() => {
-        console.log("Team ID: " + teamId)
-        setTeamRef(firebase.firestore().collection("teams").doc(teamId));
-        console.log(teamRef);
+        //console.log("Team ID: " + teamId)
+        teamRef = firebase.firestore().collection("teams").doc(teamId);
         teamRef
           .get()
           .then((team) => {
-            setCoachCode(team.data().coachCode);
+            coachCode = team.data().coachCode;
             setSignUpCode(team.data().signUpCode);
-            if(isAthleteCode) changeAthleteCode(true);
-            setTeamName(team.data().teamName)
+            //console.log(signUpCode);
+            if(signUpCode) changeAthleteCode(true);
+            teamName = team.data().teamName;
           })
           .catch((error) => {
             Alert.alert(error.message);
@@ -57,9 +57,11 @@ const CoachSettingsScreen = ({ navigation }) => {
   const [isCoachCode, changeCoachCode] = useState(checkCoachCode);
   
 
-  const toggleAthlete = () => {
-    teamRef = firebase.firestore().collection("teams").doc(teamId);
+  var toggleAthlete = () => {
+    console.log("1",signUpCode)
+    console.log(teamId);
     if (isAthleteCode) {
+      console.log(teamRef);
       teamRef
         .update({
           signUpCode: "",
@@ -83,6 +85,7 @@ const CoachSettingsScreen = ({ navigation }) => {
           Alert.alert(error.message);
         });
     }
+    console.log("new code: ", signUpCode)
   };
   const toggleCoach = () => {};
 
