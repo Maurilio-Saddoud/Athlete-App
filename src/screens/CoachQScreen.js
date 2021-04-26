@@ -5,17 +5,23 @@ import  { firebase } from "../../firebase/config";
 import { Keyboard } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
+import DropdownSelector from "../components/DropdownSelector";
+
 const CoachQScreen = (props) => {
   //Creating a variable term to track state of the search bar
   const [questionText, setQuestionText] = useState('')
   const [questionsDatabase, setQuestionsDatabase] = useState([])
 
   const [currentTeamId, setTeamId] = useState('')
+
+  //State for the dropdown picker
+  const [selectedValue, setSelectedValue] = useState("Slider");
   
   //const teamRef = firebase.firestore().collection('users').doc(userId)
   
   //console.log("asdfsdfg;sdjfgjkasfd")
 
+  //NEED TO FIGURE OUT WHEERE TO LOAD THE CURRENT TEaM ID!!!!!!!!!!
   const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
   //questionRef BELOW??????????
   //USE MULTIPS USEEFFECTS????
@@ -52,6 +58,7 @@ const CoachQScreen = (props) => {
                   querySnapshot.forEach(doc => {
                       const question = doc.data()
                       question.id = doc.id
+                      question.type = doc.questionType
                       newQuestions.push(question)
                   });
                   setQuestionsDatabase(newQuestions)
@@ -65,8 +72,11 @@ const CoachQScreen = (props) => {
   const onQuestionAddPress = () => {
     if (questionText && questionText.length > 0) {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      //Type of Question
+      const questionType = selectedValue;
       const data = {
         question: questionText,
+        questionType,
         //authorID: userID,
         createdAt: timestamp,
       };
@@ -74,6 +84,7 @@ const CoachQScreen = (props) => {
         .add(data)
         .then(_doc => {
           setQuestionText('')
+          setSelectedValue('')
           Keyboard.dismiss()
         })
         .catch((error) => {
@@ -100,15 +111,17 @@ const CoachQScreen = (props) => {
     return (
         <View style={styles.questionContainer}>
             <Text style={styles.textStyle}>
-                {index}. {item.question}
-                
+                {index}. {item.question}   ---   ({item.questionType})
             </Text>
+            
+
             <TouchableOpacity
-              onPress={() => onDeletePress(id)} //WHy this running on start of application????????
-              //NOT GETTING THE RIGHT ID VARIABLE
+              onPress={() => onDeletePress(id)} 
             > 
               <AntDesign name="delete" size={24} color="red" />
             </TouchableOpacity>
+
+            
             
 
             
@@ -121,6 +134,8 @@ const CoachQScreen = (props) => {
       <Text style={styles.titleTextStyle}>Team Questions</Text>
       <CoachQuestionsInput text="Enter a question..." term={questionText} onTermChange={setQuestionText} />
       
+      <DropdownSelector currentValue={selectedValue} onValueChange={setSelectedValue} />
+
       <TouchableOpacity
         onPress={onQuestionAddPress}
         style={styles.buttonStyle}
@@ -131,14 +146,15 @@ const CoachQScreen = (props) => {
 
       <Text style={styles.titleTextStyle2} >Current Questions</Text>
       { questionsDatabase && (
-                <View style={styles.listContainer}>
-                    <FlatList
-                        data={questionsDatabase}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderQuestion}
-                        removeClippedSubviews={true}
-                    />
-                 </View>
+                
+            <FlatList 
+                style={{margin: 10}}
+                data={questionsDatabase}
+                keyExtractor={(item) => item.id}
+                renderItem={renderQuestion}
+                removeClippedSubviews={true}
+            />
+                 
       )}
     </View>
     //SINGLE QUESTION ENTERING BOX WITH CURRENT QUESTIONS LISTED BELOW
@@ -173,7 +189,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#8ecfff",
     fontSize: 30,
-    fontFamily: "goodTimes"
+    fontFamily: "goodTimes",
+    marginTop: 10
   },
   titleTextStyle2: {
     fontWeight: "bold",
