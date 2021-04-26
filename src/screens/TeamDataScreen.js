@@ -3,13 +3,16 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import { firebase } from '../../firebase/config';
 import AthleteBar from "../components/AthleteBar";
 import PlottingView from '../components/PlottingView';
-import Spacer from '../components/Spacer'
+import Spacer from '../components/Spacer';
+import AthleteSearchBar from '../components/AthleteSearchBar';
+
 
 
 const TeamDataScreen = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const teamRef = firebase.firestore().collection('teams');
   const [athletes, setAthletes] = useState([]);
+  const [searchTerm, setSearchTerm ] = useState('');
 
   const athleteData = (item) => {
     var userForCompoment;
@@ -55,9 +58,9 @@ const TeamDataScreen = ({navigation}) => {
       <Text style={styles.textStyle}>Team Data Screen</Text>
       <Text style = {styles.nameStyle}>Hello {user.displayName} !</Text>
       <PlottingView />
-      <Spacer space = {10}/>
-      <View style = {styles.lineStyle}/>
-      <Spacer space = {10}/>
+      <Spacer space = {5}/>
+      <AthleteSearchBar text = "Search" onTermChange = {setSearchTerm} term = {searchTerm}/>
+      <Spacer space = {5}/>
       <View style = {styles.containerStyle}>
         <FlatList style = {styles.flatListStyle}
         data = {athletes}
