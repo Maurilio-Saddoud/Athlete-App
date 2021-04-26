@@ -45,17 +45,18 @@ const styles = StyleSheet.create({
   },
   opacityStyle: {
     color: "#8ecfff",
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: "goodTimes"
   },
   buttonStyle: {
     height: 75,
-    width: 150,
+    width: 200,
     borderColor: "#8ecfff",
     marginBottom: 30,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 5
+    borderWidth: 5,
   }
 });
 

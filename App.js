@@ -32,8 +32,8 @@ const fetchFont = () => {
 };
 
 const switchNavigator = createSwitchNavigator({
+  ByPass: ByPassScreen,
   loginFlow: createStackNavigator({
-    ByPass: ByPassScreen,
     Signin: SigninScreen,
     CoachOrAthlete: CoachOrAthleteScreen,
     CoachJoinCreate: CoachJoinCreateScreen,

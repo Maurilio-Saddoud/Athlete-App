@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
-import AddQuestionButton from "./AddQuestionButton";
+
 
 const CoachQuestionsInput = ({text, term, onTermChange}) => {
   return (

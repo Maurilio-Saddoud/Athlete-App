@@ -45,7 +45,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
                   .doc(uid)
                   .set({ teamId: doc.id, type: "athlete", name})
                   .then(() => {
-                    navigation.navigate("athleteFlow");
+                    navigation.navigate("AthleteQ");
                   })
                   .catch((error) => {
                     alert(error);
@@ -56,7 +56,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
           })
 
         }).catch((error) => {
-          console.log("here");
+          console.log("1");
           alert(error);
         })
 

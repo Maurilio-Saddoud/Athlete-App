@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import AuthForm from "../components/AuthForm";
 import Spacer from "../components/Spacer";
 import { firebase } from "../../firebase/config";
-import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-community/async-storage';
 
 const CoachRegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -24,9 +24,9 @@ const CoachRegistrationScreen = ({ navigation }) => {
       .then((response) => {
         const uid = response.user.uid;
         const user = response.user;
-        user.updateProfile({
-          displayName: name
-        });
+        // user.updateProfile({
+        //   displayName: name
+        // });
         const data = {
           id: uid,
           email,
@@ -38,8 +38,8 @@ const CoachRegistrationScreen = ({ navigation }) => {
           .add({
             teamName: teamName,
             mainCoachID: uid,
-            signUpCode: "000000",
-            coachCode: "000000",
+            signUpCode: "",
+            coachCode: "",
           })
           .then((docRef) => {
             newTeam

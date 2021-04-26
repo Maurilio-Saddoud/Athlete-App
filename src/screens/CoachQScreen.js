@@ -1,30 +1,53 @@
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList} from "react-native";
 import CoachQuestionsInput from "../components/CoachQuestionsInput";
-import AddQuestionButton from "../components/AddQuestionButton";
 import  { firebase } from "../../firebase/config";
-import Animated from "react-native-reanimated";
 import { Keyboard } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 const CoachQScreen = (props) => {
   //Creating a variable term to track state of the search bar
   const [questionText, setQuestionText] = useState('')
-
-
   const [questionsDatabase, setQuestionsDatabase] = useState([])
 
-  const questionRef = firebase.firestore().collection('questions')
+  const [currentTeamId, setTeamId] = useState('')
+  
+  //const teamRef = firebase.firestore().collection('users').doc(userId)
+  
+  //console.log("asdfsdfg;sdjfgjkasfd")
+
+  const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
+  //questionRef BELOW??????????
+  //USE MULTIPS USEEFFECTS????
+
+  //.collection('teams').doc(teamID).
   //const userID = props.extraData.id //NOT sure about this
   // WILL NEED TO PASS IN THE USER FROM THE APP.JS FILE
   // look at the first firebase tutorial we did
 
   useEffect(() => {
-      questionRef
+    const userId = firebase.auth().currentUser.uid;
+    //Getting the teamId of the current user NOT SURE if we want this in a hook or not
+    firebase.firestore().collection('users').doc(userId).get().then((doc) => {
+      if (doc.exists) {
+        setTeamId(doc.data().teamId);
+        console.log(currentTeamId)
+        console.log("asdf")
+        
+      } 
+      }).catch((error) => {
+      console.log("Error getting document:", error);
+      })
+
+    //const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
+    console.log("asdfasfd")
+    questionRef
           //.where("authorID", "==", userID)
+          
           .orderBy('createdAt', 'desc')
           .onSnapshot(
               querySnapshot => {
+                console.log("rrrrrrrrrr")
                   const newQuestions = []
                   querySnapshot.forEach(doc => {
                       const question = doc.data()
@@ -60,14 +83,20 @@ const CoachQScreen = (props) => {
   }
       
 
-  const onDeletePress = ({item}) => {
-    console.log(item)
-    
+  const onDeletePress = (id) => {
+    questionRef.doc(id).delete().then(() => {
+      //console.log("Document successfully deleted!");
+    }).catch((error) => {
+      //console.error("Error removing document: ", error);
+    });
+    //console.log(id)
   }
 
 
   const renderQuestion = ({item, index}) => {
-    //console.log(item)
+    //console.log("Question" + item.question + "...")
+    const id = item.id
+    //console.log(id)
     return (
         <View style={styles.questionContainer}>
             <Text style={styles.textStyle}>
@@ -75,8 +104,9 @@ const CoachQScreen = (props) => {
                 
             </Text>
             <TouchableOpacity
-              onPress={onDeletePress(item)} //Not sure how to pass down these props to onDeletePress
-            >
+              onPress={() => onDeletePress(id)} //WHy this running on start of application????????
+              //NOT GETTING THE RIGHT ID VARIABLE
+            > 
               <AntDesign name="delete" size={24} color="red" />
             </TouchableOpacity>
             
