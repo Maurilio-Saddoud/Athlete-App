@@ -8,8 +8,8 @@ const DropdownSelector = ( {currentValue, onValueChange} ) => {
         {label: 'Slider', value: 'Slider'},
         {label: 'Text Box', value: 'Text Box'},
     ]}
+    defaultNull
     placeholder='Select question type'
-    defaultIndex={0}
     containerStyle={{height: 40, marginHorizontal: 5, marginBottom:10}}
     onChangeItem={item => onValueChange(item.value)}
     />

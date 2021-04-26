@@ -3,7 +3,8 @@
 //How to wrap current questions text so delete button stays in place
 
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, Text, TouchableOpacity, FlatList} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Alert,
+  Vibration} from "react-native";
 import CoachQuestionsInput from "../components/CoachQuestionsInput";
 import  { firebase } from "../../firebase/config";
 import { Keyboard } from "react-native";
@@ -18,8 +19,11 @@ const CoachQScreen = (props) => {
 
   const [currentTeamId, setTeamId] = useState('')
 
+  //State for valid question and question type
+  const [opacity, setOpacity] = useState(0);
+
   //State for the dropdown picker
-  const [selectedValue, setSelectedValue] = useState("Slider");
+  const [selectedValue, setSelectedValue] = useState("");
   
   //const teamRef = firebase.firestore().collection('users').doc(userId)
   
@@ -74,7 +78,7 @@ const CoachQScreen = (props) => {
   }, [])
 
   const onQuestionAddPress = () => {
-    if (questionText && questionText.length > 0) {
+    if (questionText && questionText.length > 0 && selectedValue != "") {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       //Type of Question
       const questionType = selectedValue;
@@ -94,6 +98,15 @@ const CoachQScreen = (props) => {
         .catch((error) => {
           alert(error)
         })
+    }
+    else{
+        setOpacity(1);
+        Vibration.vibrate();
+        const timer = setTimeout(() => {
+          setOpacity(0);
+        }, 2000);
+        return () => clearTimeout(timer);
+      
     }
   }
       
@@ -121,6 +134,7 @@ const CoachQScreen = (props) => {
 
             <TouchableOpacity
               onPress={() => onDeletePress(id)} 
+
             > 
               <AntDesign name="delete" size={24} color="red" />
             </TouchableOpacity>
@@ -147,6 +161,12 @@ const CoachQScreen = (props) => {
         >
         <Text style={styles.textStyle}> Add Question </Text>
       </TouchableOpacity>
+
+      <View style={{opacity: opacity}}>
+          <Text style={styles.toastStyle}>
+            Enter a valid question and question type
+          </Text>
+      </View>
 
       <Text style={styles.titleTextStyle2} >Current Questions</Text>
       { questionsDatabase && (
@@ -177,7 +197,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 175,
     borderColor: "#8ecfff",
-    marginBottom: 30,
+    marginBottom: 0,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -213,6 +233,11 @@ const styles = StyleSheet.create({
   paddingBottom: 16,
   flexDirection: 'row',
   justifyContent: 'space-between'
+},
+toastStyle: {
+  color: "red",
+  margin: 3,
+  fontSize: 17,
 },
 });
 
