@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { View, StyleSheet, Text, FlatList, Alert } from "react-native";
 import { firebase } from '../../firebase/config';
 import AthleteBar from "../components/AthleteBar";
 import PlottingView from '../components/PlottingView';
@@ -23,7 +23,7 @@ const TeamDataScreen = ({navigation}) => {
       userForCompoment = firestoreDocument.data()
       return userForCompoment
     }).catch((error) => {
-      alert(error)
+      Alert.alert(error)
     })
   }
 
@@ -39,13 +39,13 @@ const TeamDataScreen = ({navigation}) => {
           })
         }).catch((error) => {
           console.log("here")
-          alert(error);
+          Alert.alert(error);
         })
       })
 
     }).catch((error) => {
       console.log("here2")
-      alert(error);
+      Alert.alert(error);
     })
   }
   useEffect(findAthletes,[])

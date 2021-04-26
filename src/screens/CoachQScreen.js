@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     color: "#8ecfff",
     fontSize: 15,
     fontFamily: "goodTimes",
+    width: "90%"
   },
   titleTextStyle: {
     fontWeight: "bold",
@@ -207,7 +208,8 @@ const styles = StyleSheet.create({
   borderBottomWidth: 1,
   paddingBottom: 16,
   flexDirection: 'row',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  alignItems: "center"
 },
 });
 

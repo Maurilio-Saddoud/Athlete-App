@@ -15,7 +15,7 @@ export const getUserId = () => {
           return doc.id;
       })
     }).catch((error) => {
-        alert(error)
+        Alert.alert(error)
     })
 
 }
