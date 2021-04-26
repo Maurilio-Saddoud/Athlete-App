@@ -75,6 +75,12 @@ const TeamDataScreen = ({navigation}) => {
   );
 };
 
+TeamDataScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   textStyle: {
     marginTop: 60,
