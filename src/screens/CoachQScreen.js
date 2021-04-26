@@ -1,6 +1,5 @@
 //QUESTIONS
 //How to get the users team id when the app loads
-//How to wrap current questions text so delete button stays in place
 
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Alert,
@@ -31,6 +30,8 @@ const CoachQScreen = (props) => {
 
   //NEED TO FIGURE OUT WHEERE TO LOAD THE CURRENT TEaM ID!!!!!!!!!!
   const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
+  //WANT THIS 
+  //const questionRef = firebase.firestore().collection('teams').doc(currentTeamId).collection('questions')
   //questionRef BELOW??????????
   //USE MULTIPS USEEFFECTS????
 
