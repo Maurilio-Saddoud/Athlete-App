@@ -11,7 +11,7 @@ const AthleteBar = ({ item, navigation }) => {
             navigation.navigate('AthleteInfo')
          }}
          >
-            <Text style = {styles.textStyle}> Andrew Denny </Text>
+            <Text style = {styles.textStyle}> {item} </Text>
          </TouchableOpacity>
         )
     

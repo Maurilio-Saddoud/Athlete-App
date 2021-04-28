@@ -5,6 +5,7 @@ import AthleteBar from "../components/AthleteBar";
 import PlottingView from '../components/PlottingView';
 import Spacer from '../components/Spacer';
 import AthleteSearchBar from '../components/AthleteSearchBar';
+import AthleteRegistrationScreen from "./AthleteRegistrationScreen";
 
 
 
@@ -13,23 +14,11 @@ const TeamDataScreen = ({navigation}) => {
   const teamRef = firebase.firestore().collection('teams');
   const [athletes, setAthletes] = useState([]);
   const [searchTerm, setSearchTerm ] = useState('');
+  const [athleteData, setathleteData] = useState([]);
   var coachId;
-  const athleteData = (item) => {
-    var userForCompoment;
-    teamRef.doc(coachId).collection("athletes").doc(item)
-    .get()
-    .then((firestoreDocument) => {
-      if (!firestoreDocument.exists) {
-        Alert.alert("User does not exist anymore.");
-        return;
-      }
-      console.log(firestoreDocument.data())
-      console.log(userForCompoment)
-      return userForCompoment
-    }).catch((error) => {
-      Alert.alert(error)
-    })
-  }
+  var athleteInfo;
+  var data;
+    
 
   const findAthletes = () => {
     teamRef.where("mainCoachID", "==", user.uid)
@@ -37,24 +26,42 @@ const TeamDataScreen = ({navigation}) => {
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         coachId = doc.id
-        teamRef.doc(doc.id).collection("athletes").get()
+        const newRef = teamRef.doc(doc.id).collection("athletes")
+        let athletesArray = []
+        let athleteDataArray = []
+        newRef.get()
         .then((query) => {
           query.forEach((athleteDoc) => {
-            setAthletes([...athletes, athleteDoc.id])
+            //setAthletes([...athletes, athleteDoc.id])
+            athletesArray.push(athleteDoc.id)
+            newRef.doc(athleteDoc.id).get()
+            .then((document) => {
+              const docData = document.data().name
+              athleteDataArray.push(docData)
+              console.log("Yo", athleteDataArray)
+              //etathleteData([...athleteData, docData])
+            }) 
+              .then(() => {
+              setAthletes(athletesArray)
+              setathleteData(athleteDataArray);
+            })
+            .catch((error) => {
+              Alert.alert(error.message)
+            })
           })
+          
+          console.log("here fool", athleteData)
         }).catch((error) => {
-          console.log("here")
-          Alert.alert(error);
+          Alert.alert(error.message);
         })
       })
-
     }).catch((error) => {
-      console.log("here2")
-      Alert.alert(error);
+      Alert.alert(error.message);
     })
   }
-  useEffect(findAthletes,[])
-
+  useEffect(() => {
+    findAthletes()
+  }, [])
   return (
     <View style={styles.viewStyle}>
       <Text style={styles.textStyle}>Team Data Screen</Text>
@@ -65,14 +72,10 @@ const TeamDataScreen = ({navigation}) => {
       <Spacer space = {5}/>
       <View style = {styles.containerStyle}>
         <FlatList style = {styles.flatListStyle}
-        data = {athletes}
+        data = {athleteData}
         renderItem = {({ item }) => {
-          const athleteItem = athleteData(item);
-          //console.log(athleteItem)
-          return (
-              <AthleteBar item = {athleteItem}/>
-          )
-          
+          console.log("this the new item", item)
+          return <AthleteBar item = {item}/>     
         }}
         keyExtractor = {(item) => item }
         />
