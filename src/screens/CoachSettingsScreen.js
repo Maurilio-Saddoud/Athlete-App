@@ -1,88 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, Button, Alert, Switch } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Alert,
+  Switch,
+  TouchableOpacity,
+} from "react-native";
 import { firebase } from "../../firebase/config";
 import DisplayJoinCode from "../components/DisplayJoinCode";
 
 const CoachSettingsScreen = ({ navigation }) => {
   const [isAthleteCode, changeAthleteCode] = useState(false);
+  const [isCoachCode, changeCoachCode] = useState(false);
+  const [signUpCode, setSignUpCode] = useState("");
+  const [coachCode, setCoachCode] = useState("");
+  const [teamName, setTeamName] = useState("...");
+
   const uid = firebase.auth().currentUser.uid;
   const userRef = firebase.firestore().collection("users").doc(uid);
-
-  
-  var [signUpCode, setSignUpCode] = useState("");
-  let teamId = () => {
-    var tempTeamId;
-    userRef
-      .get()
-      .then((user) => {
-        tempTeamId = user.data().teamId;
-      });
-    return tempTeamId;
-  };
-  var teamName;
+  var teamId;
   
 
-  useEffect(() => {
-    userRef
-      .get()
-      .then((user) => {
-        teamId = user.data().teamId;
-      })
-      .then(() => {
-        //console.log("Team ID: " + teamId)
-        let teamRef = firebase.firestore().collection("teams").doc(teamId);
-        teamRef
-          .get()
-          .then((team) => {
-            //console.log(teamRef);
-            coachCode = team.data().coachCode;
-            setSignUpCode(team.data().signUpCode);
-            //console.log(signUpCode);
-            if(signUpCode) changeAthleteCode(true);
-            teamName = team.data().teamName;
-          })
-          .catch((error) => {
-            Alert.alert(error.message);
-          })
-          .catch((error) => {
-            Alert.alert(error.message);
-          })
-      })
-      .catch((error) => {
-        Alert.alert(error.message);
-      });
-  }, []);
+  userRef
+    .get()
+    .then((user) => {
+      teamId = user.data().teamId;
+    })
+    .then(() => {
+      let teamRef = firebase.firestore().collection("teams").doc(teamId);
+      teamRef
+        .get()
+        .then((team) => {
+          setCoachCode(team.data().coachCode);
+          setSignUpCode(team.data().signUpCode);
+          if (signUpCode) changeAthleteCode(true);
+          if (coachCode) changeCoachCode(true);
+          setTeamName(team.data().teamName);
+        })
+        .catch((error) => {
+          Alert.alert(error.message);
+        })
+        .catch((error) => {
+          Alert.alert(error.message);
+        });
+    })
+    .catch((error) => {
+      Alert.alert(error.message);
+    });
 
-  
-  const checkCoachCode = () => {
-    if (coachCode) return true;
-    else return false;
-  };
-  const checkAthleteCode = () => {
-    if (signUpCode) return true;
-    else return false;
-  };
-  // this state is just to tell the switch which position to go into
-  const [isCoachCode, changeCoachCode] = useState(checkCoachCode);
   
 
   var toggleAthlete = () => {
-    console.log("teamID: " + teamId)
     let teamRef = firebase.firestore().collection("teams").doc(teamId);
-    console.log("1",signUpCode)
-    //console.log(teamId);
     if (isAthleteCode) {
-      console.log("team ID " + teamId);
       teamRef
         .update({
           signUpCode: "",
         })
         .then(() => {
-          changeAthleteCode(false);
           setSignUpCode("");
+          changeAthleteCode(false);
         })
         .catch((error) => {
-          Alert.alert(error.message);
+          Alert.alert("Whoa, slow down!");
         });
     } else {
       const newJoinCode = randomNumberGenerator();
@@ -93,12 +75,37 @@ const CoachSettingsScreen = ({ navigation }) => {
           setSignUpCode(newJoinCode);
         })
         .catch((error) => {
-          Alert.alert(error.message);
+          Alert.alert("Whoa, slow down!");
         });
     }
-    console.log("new code: ", signUpCode)
   };
-  const toggleCoach = () => {};
+  const toggleCoach = () => {
+    let teamRef = firebase.firestore().collection("teams").doc(teamId);
+    if (isCoachCode) {
+      teamRef
+        .update({
+          coachCode: "",
+        })
+        .then(() => {
+          setCoachCode("");
+          changeCoachCode(false);
+        })
+        .catch((error) => {
+          Alert.alert("Whoa, slow down!");
+        });
+    } else {
+      const newJoinCode = randomNumberGenerator();
+      teamRef
+        .update({ coachCode: newJoinCode })
+        .then(() => {
+          changeCoachCode(true);
+          setCoachCode(newJoinCode);
+        })
+        .catch((error) => {
+          Alert.alert("Whoa, slow down!");
+        });
+    }
+  };
 
   const randomNumberGenerator = () => {
     let newCode = "";
@@ -123,6 +130,7 @@ const CoachSettingsScreen = ({ navigation }) => {
   return (
     <View style={styles.viewStyle}>
       <Text style={styles.headerStyle}>Settings</Text>
+      <Text style={styles.teamNameStyle}>{teamName}</Text>
       <View style={{ marginBottom: "5%" }}>
         <DisplayJoinCode code={signUpCode} type="Athlete" />
         <View style={styles.joinCodeButton}>
@@ -137,7 +145,7 @@ const CoachSettingsScreen = ({ navigation }) => {
         </View>
       </View>
       <View>
-        <DisplayJoinCode code={"776644"} type="Coach" />
+        <DisplayJoinCode code={coachCode} type="Coach" />
         <View style={styles.joinCodeButton}>
           <Text style={styles.buttonTextStyle}>Add Coaches</Text>
           <Switch
@@ -149,8 +157,11 @@ const CoachSettingsScreen = ({ navigation }) => {
           />
         </View>
       </View>
-
-      <Button title="Logout" onPress={onLogOutPress} />
+      <View style={styles.logOutContainer}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={onLogOutPress}>
+          <Text style={styles.opacityStyle}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -167,6 +178,12 @@ const styles = StyleSheet.create({
     color: "#8ecfff",
     fontFamily: "goodTimes",
     marginTop: "5%",
+    textAlign: "center",
+  },
+  teamNameStyle: {
+    fontSize: 20,
+    color: "white",
+    fontFamily: "goodTimes",
     marginBottom: "10%",
     textAlign: "center",
   },
@@ -181,6 +198,26 @@ const styles = StyleSheet.create({
     fontFamily: "goodTimes",
     fontSize: 18,
   },
+  buttonStyle: {
+    height: 75,
+    width: 200,
+    borderColor: "#8ecfff",
+    marginBottom: 30,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 5,
+  },
+  opacityStyle: {
+    color: "#8ecfff",
+    fontSize: 25,
+    fontFamily: "goodTimes",
+  },
+  logOutContainer: {
+    flex:1,
+    justifyContent: "flex-end",
+    alignItems: "center"
+  }
 });
 
 export default CoachSettingsScreen;

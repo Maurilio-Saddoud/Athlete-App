@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import * as Font from "expo-font";
 
 import AppLoading from "expo-app-loading";
+//import { CoachProvider } from "./src/context/CoachContext";
 
 import SigninScreen from "./src/screens/SigninScreen";
 import CoachOrAthleteScreen from "./src/screens/CoachOrAthleteScreen";
@@ -21,7 +22,7 @@ import CoachQScreen from "./src/screens/CoachQScreen";
 import TeamDataScreen from "./src/screens/TeamDataScreen";
 import CoachSettingsScreen from "./src/screens/CoachSettingsScreen";
 import ByPassScreen from "./src/screens/ByPassScreen";
-import AthleteInfoScreen from './src/screens/AthleteInfoScreen';
+import AthleteInfoScreen from "./src/screens/AthleteInfoScreen";
 
 const fetchFont = () => {
   return Font.loadAsync({
@@ -48,9 +49,10 @@ const switchNavigator = createSwitchNavigator({
     AthleteQ: AthleteQScreen,
     AthleteSettings: AthleteSettingsScreen,
   }),
-  coachFlow: createBottomTabNavigator({
-    //Renaming pages for tab navigator
-    /*
+  coachFlow: createBottomTabNavigator(
+    {
+      //Renaming pages for tab navigator
+      /*
     dataFlow: createStackNavigator({
       TeamData: TeamDataScreen,
       AthleteInfo: AthleteInfoScreen
@@ -58,37 +60,36 @@ const switchNavigator = createSwitchNavigator({
     CoachQ: CoachQScreen,
     CoachSettings: CoachSettingsScreen,
     */
-    'Team Data': createStackNavigator({
-      TeamData: TeamDataScreen,
-      AthleteInfo: AthleteInfoScreen
-    }),
-    'Questions': CoachQScreen,
-    'Settings': CoachSettingsScreen,
-  },
-  {
-    //CHANGE TO CUSTOM TAB NAVIGATOR??? https://reactnavigation.org/docs/bottom-tab-navigator/
-    //Styling
-    // Documentation - https://reactnavigation.org/docs/bottom-tab-navigator/
-    tabBarOptions: {
-      activeTintColor: "black",
-      activeBackgroundColor: "#8ecfff",
-      inactiveBackgroundColor: "black",
-      showIcon: false,  
+      "Team Data": createStackNavigator({
+        TeamData: TeamDataScreen,
+        AthleteInfo: AthleteInfoScreen,
+      }),
+      Questions: CoachQScreen,
+      Settings: CoachSettingsScreen,
+    },
+    {
+      //CHANGE TO CUSTOM TAB NAVIGATOR??? https://reactnavigation.org/docs/bottom-tab-navigator/
+      //Styling
+      // Documentation - https://reactnavigation.org/docs/bottom-tab-navigator/
+      tabBarOptions: {
+        activeTintColor: "black",
+        activeBackgroundColor: "#8ecfff",
+        inactiveBackgroundColor: "black",
+        showIcon: false,
 
-      tabStyle:{
-        flexDirection: 'column', 
-        justifyContent: 'center',  //centers the content vertically   
-      }  ,
+        tabStyle: {
+          flexDirection: "column",
+          justifyContent: "center", //centers the content vertically
+        },
 
-      labelStyle:{
-        fontSize: 13,
-        fontFamily: "goodTimes",
-        fontWeight: "bold",
-        alignItems: 'center', //Centers the text horizontally
-      }
+        labelStyle: {
+          fontSize: 13,
+          fontFamily: "goodTimes",
+          fontWeight: "bold",
+          alignItems: "center", //Centers the text horizontally
+        },
 
-        
-      /*
+        /*
       tabStyle: {
         backgroundColor: "gray",
         flexDirection: "column", 
@@ -103,8 +104,9 @@ const switchNavigator = createSwitchNavigator({
         fontWeight: "bold"
       }
       */
+      },
     }
-  })
+  ),
 });
 
 const App = createAppContainer(switchNavigator);
@@ -123,5 +125,9 @@ export default () => {
       />
     );
   }
-  return <App />;
+  return (
+    //<CoachProvider>
+      <App />
+    //</CoachProvider>
+  );
 };
