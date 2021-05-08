@@ -6,6 +6,7 @@ import PlottingView from '../components/PlottingView';
 import Spacer from '../components/Spacer';
 import AthleteSearchBar from '../components/AthleteSearchBar';
 import AthleteRegistrationScreen from "./AthleteRegistrationScreen";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 
@@ -15,42 +16,42 @@ const TeamDataScreen = ({navigation}) => {
   const [athletes, setAthletes] = useState([]);
   const [searchTerm, setSearchTerm ] = useState('');
   const [athleteData, setathleteData] = useState([]);
-  var coachId;
-  var athleteInfo;
-  var data;
-    
+  const [athleteObj, setathleteObj] = useState([]);
 
   const findAthletes = () => {
     teamRef.where("mainCoachID", "==", user.uid)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        coachId = doc.id
         const newRef = teamRef.doc(doc.id).collection("athletes")
         let athletesArray = []
         let athleteDataArray = []
         newRef.get()
         .then((query) => {
           query.forEach((athleteDoc) => {
-            //setAthletes([...athletes, athleteDoc.id])
             athletesArray.push(athleteDoc.id)
             newRef.doc(athleteDoc.id).get()
             .then((document) => {
-              const docData = document.data().name
+              //const docData = document.data().name
+              const info = document.data()
+              const docData = {
+                name: info.name,
+                email: info.email,
+                id: info.id
+              }
               athleteDataArray.push(docData)
               console.log("Yo", athleteDataArray)
-              //etathleteData([...athleteData, docData])
             }) 
               .then(() => {
               setAthletes(athletesArray)
-              setathleteData(athleteDataArray);
+              //setathleteData(athleteDataArray);
+              setathleteObj(athleteDataArray);
             })
             .catch((error) => {
               Alert.alert(error.message)
             })
           })
           
-          console.log("here fool", athleteData)
         }).catch((error) => {
           Alert.alert(error.message);
         })
@@ -72,12 +73,12 @@ const TeamDataScreen = ({navigation}) => {
       <Spacer space = {5}/>
       <View style = {styles.containerStyle}>
         <FlatList style = {styles.flatListStyle}
-        data = {athleteData}
+        data = {athleteObj}
         renderItem = {({ item }) => {
           console.log("this the new item", item)
           return <AthleteBar item = {item}/>     
         }}
-        keyExtractor = {(item) => item }
+        keyExtractor = {(item) => item.id }
         />
       </View>
     </View>

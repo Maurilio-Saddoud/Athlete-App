@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const AthleteDataScreen = () => {
+const AthleteDataScreen = ({navigation }) => {
   return (
     <View>
       <Text style={styles.textStyle}>Athlete Data Screen</Text>

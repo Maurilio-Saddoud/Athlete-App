@@ -8,10 +8,10 @@ const AthleteBar = ({ item, navigation }) => {
     return (
          <TouchableOpacity style = {styles.viewStyle}
          onPress = {() => {
-            navigation.navigate('AthleteInfo')
+            navigation.navigate('AthleteInfo', {athlete: item})
          }}
          >
-            <Text style = {styles.textStyle}> {item} </Text>
+            <Text style = {styles.textStyle}> {item.name} </Text>
          </TouchableOpacity>
         )
     
