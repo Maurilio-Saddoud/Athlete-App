@@ -45,21 +45,36 @@ const switchNavigator = createSwitchNavigator({
     AthleteRegistration: AthleteRegistrationScreen,
   }),
   athleteFlow: createBottomTabNavigator({
-    AthleteData: AthleteDataScreen,
-    AthleteQ: AthleteQScreen,
-    AthleteSettings: AthleteSettingsScreen,
-  }),
+    Data: AthleteDataScreen,
+    Questions : AthleteQScreen,
+    Settings: AthleteSettingsScreen,
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: "black",
+      activeBackgroundColor: "#8ecfff",
+      inactiveBackgroundColor: "black",
+      showIcon: false,
+      flex: 1,
+
+      tabStyle: {
+        flexDirection: "column",
+        justifyContent: "center", //centers the content vertically
+      },
+      labelStyle: {
+        fontSize: 13,
+        fontFamily: "goodTimes",
+        fontWeight: "bold",
+        alignItems: "center", //Centers the text horizontally
+      },
+
+    }
+
+  }
+  ),
   coachFlow: createBottomTabNavigator(
     {
-      //Renaming pages for tab navigator
-      /*
-    dataFlow: createStackNavigator({
-      TeamData: TeamDataScreen,
-      AthleteInfo: AthleteInfoScreen
-    }),
-    CoachQ: CoachQScreen,
-    CoachSettings: CoachSettingsScreen,
-    */
+      
       "Team Data": createStackNavigator({
         TeamData: TeamDataScreen,
         AthleteInfo: AthleteInfoScreen,

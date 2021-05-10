@@ -12,7 +12,7 @@ const CoachOrAthleteScreen = ({ navigation }) => {
       <Text style={styles.textStyle}>Coach or Athlete</Text>
       <Spacer space={40} />
       <CoachAthleteButton text={"Coach"} navigateto={"CoachJoinCreate"} />
-      <CoachAthleteButton text={"Athlete"} navigateto={"AthleteJoinCode"} />
+      <CoachAthleteButton text={"Athlete"} navigateto={"AthleteRegistration"} />
 
     </View>
   );

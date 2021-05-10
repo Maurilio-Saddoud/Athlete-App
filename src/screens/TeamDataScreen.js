@@ -60,6 +60,14 @@ const TeamDataScreen = ({navigation}) => {
       Alert.alert(error.message);
     })
   }
+
+  const searchAthlete = (searchTerm) => {
+    const athleteObjCopy = [...athleteObj];
+    console.log("here", athleteObj);
+    // athleteObj.forEach((athleteObj) => {
+
+    // })
+  };
   useEffect(() => {
     findAthletes()
   }, [])
@@ -69,7 +77,7 @@ const TeamDataScreen = ({navigation}) => {
       <Text style = {styles.nameStyle}>Hello {user.displayName} !</Text>
       <PlottingView />
       <Spacer space = {5}/>
-      <AthleteSearchBar text = "Search" onTermChange = {setSearchTerm} term = {searchTerm}/>
+      <AthleteSearchBar text = "Search" onTermChange = {setSearchTerm} term = {searchTerm} onTermSubmit = {searchAthlete} />
       <Spacer space = {5}/>
       <View style = {styles.containerStyle}>
         <FlatList style = {styles.flatListStyle}

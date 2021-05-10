@@ -10,10 +10,15 @@ const AthleteRegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [teamCode, setTeamCode] = useState('');
 
   const onRegisterPress = () => {
     if (password !== confirmPassword) {
       Alert.alert("Passwords don't match.");
+      return;
+    }
+    if(name == ''){
+      Alert.alert("Please Enter a name!");
       return;
     }
     firebase.auth()
@@ -31,7 +36,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
           type: "athlete"
         };
         const Team = firebase.firestore().collection("teams");
-        Team.where("signUpCode", "==", "000000")
+        Team.where("signUpCode", "==", teamCode)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -45,7 +50,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
                   .doc(uid)
                   .set({ teamId: doc.id, type: "athlete", name})
                   .then(() => {
-                    navigation.navigate("AthleteQ");
+                    navigation.navigate("Questions");
                   })
                   .catch((error) => {
                     alert(error);
@@ -74,6 +79,7 @@ const AthleteRegistrationScreen = ({ navigation }) => {
         <AuthForm text = "Email" onTermChange = {setEmail} />
         <AuthForm text = "Password" onTermChange = {setPassword} secure = {true}/>
         <AuthForm text = "Confirm Password" onTermChange = {setConfirmPassword} secure = {true}/>
+        <AuthForm text = "Team Code" onTermChange = {setTeamCode}/>
         <Spacer space={"7%"} />
         <View style = {styles.buttonContainer}>
           <TouchableOpacity onPress = {onRegisterPress}
