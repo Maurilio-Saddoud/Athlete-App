@@ -1,6 +1,3 @@
-//QUESTIONS
-//How to get the users team id when the app loads
-
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Alert,
   Vibration} from "react-native";
@@ -16,53 +13,42 @@ const CoachQScreen = (props) => {
   const [questionText, setQuestionText] = useState('')
   const [questionsDatabase, setQuestionsDatabase] = useState([])
 
-  const [currentTeamId, setTeamId] = useState('')
-
   //State for valid question and question type
   const [opacity, setOpacity] = useState(0);
 
   //State for the dropdown picker
   const [selectedValue, setSelectedValue] = useState("");
+
+  const userId = firebase.auth().currentUser.uid
   
-  //const teamRef = firebase.firestore().collection('users').doc(userId)
+  const teamIdRef = firebase.firestore().collection('users').doc(userId)
+  //console.log("Team Id: " + firebase.firestore().collection('users').doc(userId).get().teamId)
+  //Getting the teamId of the current user NOT SURE if we want this in a hook or not
+
+  //global.currentTeamId = "start"
+  //GLOBAL IS CHANGING but when the screen updates so does the global var and useEffect doesn't run
+  //var [currentTeamId, setTeamId] = useState("");
+
+  const questionRef = firebase.firestore().collection('teams')
   
-  //console.log("asdfsdfg;sdjfgjkasfd")
-
-  //NEED TO FIGURE OUT WHEERE TO LOAD THE CURRENT TEaM ID!!!!!!!!!!
-  const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
-  //WANT THIS 
-  //const questionRef = firebase.firestore().collection('teams').doc(currentTeamId).collection('questions')
-  //questionRef BELOW??????????
-  //USE MULTIPS USEEFFECTS????
-
-  //.collection('teams').doc(teamID).
-  //const userID = props.extraData.id //NOT sure about this
-  // WILL NEED TO PASS IN THE USER FROM THE APP.JS FILE
-  // look at the first firebase tutorial we did
-
-  useEffect(() => {
-    const userId = firebase.auth().currentUser.uid;
-    //Getting the teamId of the current user NOT SURE if we want this in a hook or not
-    firebase.firestore().collection('users').doc(userId).get().then((doc) => {
+  //Helper function to run only at the start of running the page
+  const getQuestions = () => {
+    global.currentTeamId = "start" //THE KEY!! Not sure why var doesn't work
+    // Global allows access to variable from any file 
+    
+    teamIdRef.get().then((doc) => {
       if (doc.exists) {
-        setTeamId(doc.data().teamId);
-        console.log(currentTeamId)
-        console.log("asdf")
-        
-      } 
-      }).catch((error) => {
-      console.log("Error getting document:", error);
-      })
+        currentTeamId = doc.data().teamId      
 
-    //const questionRef = firebase.firestore().collection('teams').doc("TIjC9ygzB3IuUKljylZ6").collection('questions')
-    console.log("asdfasfd")
-    questionRef
-          //.where("authorID", "==", userID)
-          
-          .orderBy('createdAt', 'desc')
-          .onSnapshot(
+        //State does not return a promise so .then() is not waiting on it
+        //The state gets set correctly but not in time
+      
+        }
+        }).then(() => {    
+          questionRef.doc(currentTeamId).collection('questions')
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(
               querySnapshot => {
-                console.log("rrrrrrrrrr")
                   const newQuestions = []
                   querySnapshot.forEach(doc => {
                       const question = doc.data()
@@ -75,7 +61,17 @@ const CoachQScreen = (props) => {
               error => {
                   console.log(error)
               }
-          )
+            )
+        })
+        .catch((error) => {
+          Alert.alert(error.message)
+        })
+      .catch((error) => {
+        Alert.alert(error.message)
+      })
+  }
+  useEffect(() => {
+    getQuestions()
   }, [])
 
   const onQuestionAddPress = () => {
@@ -89,7 +85,8 @@ const CoachQScreen = (props) => {
         //authorID: userID,
         createdAt: timestamp,
       };
-      questionRef
+
+      questionRef.doc(currentTeamId).collection('questions')
         .add(data)
         .then(_doc => {
           setQuestionText('')
@@ -113,26 +110,21 @@ const CoachQScreen = (props) => {
       
 
   const onDeletePress = (id) => {
-    questionRef.doc(id).delete().then(() => {
-      //console.log("Document successfully deleted!");
-    }).catch((error) => {
-      //console.error("Error removing document: ", error);
+    questionRef.doc(currentTeamId).collection('questions')
+    .doc(id).delete().catch((error) => {
+      Alert.alert(error.message)
     });
-    //console.log(id)
   }
 
 
   const renderQuestion = ({item, index}) => {
-    //console.log("Question" + item.question + "...")
     const id = item.id
-    //console.log(id)
     return (
         <View style={styles.questionContainer}>
             <Text style={styles.textStyle}>
                 {index}. {item.question}   ---   ({item.questionType})
             </Text>
             
-
             <TouchableOpacity
               onPress={() => onDeletePress(id)} 
 
@@ -140,10 +132,6 @@ const CoachQScreen = (props) => {
               <AntDesign name="delete" size={24} color="red" />
             </TouchableOpacity>
 
-            
-            
-
-            
         </View>
     )
   }
@@ -182,8 +170,6 @@ const CoachQScreen = (props) => {
                  
       )}
     </View>
-    //SINGLE QUESTION ENTERING BOX WITH CURRENT QUESTIONS LISTED BELOW
-    //Need to add question to firebase on submit
   );
 };
 
