@@ -8,14 +8,16 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@firebase/app": "^0.6.21",
     "@react-native-async-storage/async-storage": "github:react-native-community/async-storage",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/picker": "^1.8.1",
+    "@react-native-community/slider": "^3.0.3",
     "expo": "~40.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-font": "~8.4.0",
     "expo-status-bar": "~1.0.3",
-    "firebase": "^8.3.2",
+    "firebase": "^8.6.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
