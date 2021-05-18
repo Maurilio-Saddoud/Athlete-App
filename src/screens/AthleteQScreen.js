@@ -121,9 +121,9 @@ const AthleteQScreen = () => {
           
   
             <Slider 
-              value={sliderValues[item.question]}//WOrks with a constant number but NOT this value even though this value prints correctly above
-              //Need there to be a state object that keeps states of all sliders in one object?? Like a dictionary??
-              //WORKS BUT NOT AT THE VERY BEGINNING
+              thumbStyle = {{backgroundColor: "#8ecfff", height: 25, width: 25}}
+              style = {{padding: 30}}
+              value={5}//value is only the START value
               
               onValueChange={(value) => {
                 //NEED STATE - Allows you to print out above because it is monitoring the state
