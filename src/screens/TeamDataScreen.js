@@ -13,10 +13,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const TeamDataScreen = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const teamRef = firebase.firestore().collection('teams');
-  const [athletes, setAthletes] = useState([]);
   const [searchTerm, setSearchTerm ] = useState('');
-  const [athleteData, setathleteData] = useState([]);
   const [athleteObj, setathleteObj] = useState([]);
+  const [athleteFiltered, setAthleteFilter] = useState([]);
 
   const findAthletes = () => {
     teamRef.where("mainCoachID", "==", user.uid)
@@ -24,34 +23,31 @@ const TeamDataScreen = ({navigation}) => {
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const newRef = teamRef.doc(doc.id).collection("athletes")
-        let athletesArray = []
         let athleteDataArray = []
+        let athleteFilterArray = []
         newRef.get()
         .then((query) => {
           query.forEach((athleteDoc) => {
-            athletesArray.push(athleteDoc.id)
             newRef.doc(athleteDoc.id).get()
             .then((document) => {
-              //const docData = document.data().name
               const info = document.data()
               const docData = {
                 name: info.name,
                 email: info.email,
                 id: info.id
               }
-              athleteDataArray.push(docData)
-              console.log("Yo", athleteDataArray)
+              athleteDataArray.push(docData);
+              athleteFilterArray.push(docData);
             }) 
               .then(() => {
-              setAthletes(athletesArray)
-              //setathleteData(athleteDataArray);
+              setAthleteFilter(athleteFilterArray);
               setathleteObj(athleteDataArray);
+    
             })
             .catch((error) => {
               Alert.alert(error.message)
             })
           })
-          
         }).catch((error) => {
           Alert.alert(error.message);
         })
@@ -61,29 +57,40 @@ const TeamDataScreen = ({navigation}) => {
     })
   }
 
-  const searchAthlete = (searchTerm) => {
-    const athleteObjCopy = [...athleteObj];
-    console.log("here", athleteObj);
-    // athleteObj.forEach((athleteObj) => {
-
-    // })
+  const searchAthlete = (newTerm) => {
+    setSearchTerm(newTerm);
+    const athleteObjCopy = [];
+    if(newTerm == ''){
+      athleteObjCopy.push(...athleteObj);
+    }
+    else{
+      athleteObj.forEach((athlete) => {
+        if(athlete.name.indexOf(newTerm) >= 0){
+          athleteObjCopy.push(athlete);
+        }
+  
+      })
+    }
+    setAthleteFilter([...athleteObjCopy]);
   };
+
   useEffect(() => {
     findAthletes()
   }, [])
+
+
   return (
     <View style={styles.viewStyle}>
       <Text style={styles.textStyle}>Team Data Screen</Text>
-      <Text style = {styles.nameStyle}>Hello {user.displayName} !</Text>
+      <Text style = {styles.nameStyle}>Hello Coach {user.displayName} !</Text>
       <PlottingView />
       <Spacer space = {5}/>
-      <AthleteSearchBar text = "Search" onTermChange = {setSearchTerm} term = {searchTerm} onTermSubmit = {searchAthlete} />
+      <AthleteSearchBar text = "Search" onTermChange = {searchAthlete} term = {searchTerm} />
       <Spacer space = {5}/>
       <View style = {styles.containerStyle}>
         <FlatList style = {styles.flatListStyle}
-        data = {athleteObj}
+        data = {athleteFiltered}
         renderItem = {({ item }) => {
-          console.log("this the new item", item)
           return <AthleteBar item = {item}/>     
         }}
         keyExtractor = {(item) => item.id }
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: 'row',
     flex: 1,
-    marginHorizontal: 15
+    marginHorizontal: "3%"
   },
   flatListStyle: {
     flex: 1,

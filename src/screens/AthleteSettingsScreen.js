@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
     fontFamily: "goodTimes",
-    marginTop: "5%",
+    marginTop: "15%",
     textAlign: "center"
   },
   viewStyle: {

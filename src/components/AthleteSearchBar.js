@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TextInput, StyleSheet } from "react-native";
 import {Feather} from '@expo/vector-icons';
 
-const AthleteSearchBar = ({text, term, onTermChange}) => {
+const AthleteSearchBar = ({text, term, onTermChange }) => {
     return <View style = {styles.codebar}>
         <Feather name = "search" size = {20} color = {'#8ecfff'} style ={styles.iconStyle}/>
         <TextInput style = {styles.input}
@@ -13,6 +13,7 @@ const AthleteSearchBar = ({text, term, onTermChange}) => {
         value = {term}
         onChangeText = {(newTerm) => onTermChange(newTerm)}
         color = "#8ecfff"
+        autoCapitalize = "words"
         />
         </View>
 }

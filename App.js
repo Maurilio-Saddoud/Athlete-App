@@ -23,6 +23,7 @@ import TeamDataScreen from "./src/screens/TeamDataScreen";
 import CoachSettingsScreen from "./src/screens/CoachSettingsScreen";
 import ByPassScreen from "./src/screens/ByPassScreen";
 import AthleteInfoScreen from "./src/screens/AthleteInfoScreen";
+import QuestionInfoScreen from './src/screens/QuestionInfoScreen';
 
 const fetchFont = () => {
   return Font.loadAsync({
@@ -45,7 +46,10 @@ const switchNavigator = createSwitchNavigator({
     AthleteRegistration: AthleteRegistrationScreen,
   }),
   athleteFlow: createBottomTabNavigator({
-    Data: AthleteDataScreen,
+    "My Data": createStackNavigator({
+      Data: AthleteDataScreen,
+      QuestionInfo: QuestionInfoScreen
+    }),
     Questions : AthleteQScreen,
     Settings: AthleteSettingsScreen,
   },
@@ -78,6 +82,7 @@ const switchNavigator = createSwitchNavigator({
       "Team Data": createStackNavigator({
         TeamData: TeamDataScreen,
         AthleteInfo: AthleteInfoScreen,
+        QuestionInfo: QuestionInfoScreen
       }),
       Questions: CoachQScreen,
       Settings: CoachSettingsScreen,
